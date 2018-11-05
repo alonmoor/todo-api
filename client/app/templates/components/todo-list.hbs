@@ -1,0 +1,31 @@
+<div class="tasks">
+  <header>
+    <span class="title">Task List</span>
+    <button class="task-add" onclick={{action "newTaskDisplay"}}>
+      <span class="plus"/>
+    </button>
+  </header>
+  {{#if displayNewTask}}
+    <div class="add">
+      <label>New Task</label>
+      <input class="title"/>
+      <button onclick={{action "newTaskAdd"}}>Add</button>
+      <button onclick={{action "newTaskCancel"}}>Cancel</button>
+    </div>
+  {{/if}}
+
+  <div class="list">
+    {{#each model.tasks as |task index|}}
+      {{#unless task.isDeleted }}
+        {{todo-item task=task index=index editTitle=false tasks=model.tasks}}
+      {{/unless}}
+    {{/each}}
+  </div>
+
+  <footer>
+    <span>Todo  : {{ model.todo  }} </span>
+    <span>Done  : {{ model.done  }} </span>
+    <span>Total : {{ model.total }} </span>
+  </footer>
+</div>
+{{yield}}
