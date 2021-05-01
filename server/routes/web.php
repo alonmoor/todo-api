@@ -2,6 +2,8 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\WelcomeController;
 use Inertia\Inertia;
 
 /*
@@ -24,11 +26,13 @@ Route::get('/home', function () {
     ]);
 });
 
+//Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+//    return Inertia::render('Dashboard');
+//})->name('dashboard');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
-
-
+    return redirect('/');
+});//->name('dashboard');
 
 Auth::routes();
 
@@ -44,3 +48,14 @@ Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->nam
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::post('/users/{id}', [UsersController::class, 'update']);
+
+Route::resource('users', UsersController::class);
+
+
+//Route::get('/', [
+//    'uses' => [WelcomeController::class, 'index'],
+//    'as' => 'welcome'
+//]);

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="laravel-api.local" id="d3e58dc4-f8f0-450c-b743-bc8c7fc46263" port="22" nameFormat="DESCRIPTIVE" username="alon" />
+    </configs>
+  </component>
+</project>

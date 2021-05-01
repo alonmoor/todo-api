@@ -8,24 +8,30 @@
       <span onclick={{action "editTitle"}}>{{task.title}}</span>
     {{/if}}
   </span>
+
+
+
+
   <span class="share_user_task" id="share_task_{{task.id}}">
 <!--     <i class="fa fa-user" ></i>-->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+         <i class="fa fa-user"></i>
+    </button>
 
+<!--    <div class="row">-->
+<!--    <div class="col-lg-12 margin-tb">-->
+<!--        <div class="pull-left">-->
+<!--        </div>-->
+<!--        <div class="pull-right share_task_{{task.id}}" >-->
+<!--            <a class="btn btn-success text-light" data-toggle="modal" id="mediumButton" data-target="#mediumModal"-->
 
-    <div class="row">
-    <div class="col-lg-12 margin-tb">
-        <div class="pull-left">
-        </div>
-        <div class="pull-right share_task_{{task.id}}" >
-            <a class="btn btn-success text-light" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
-
-               title="Share a Task"
-            >
-                <i class="fa fa-user"></i>
-            </a>
-        </div>
-    </div>
-</div>
+<!--               title="Share a Task"-->
+<!--            >-->
+<!--                <i class="fa fa-user"></i>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 
 
