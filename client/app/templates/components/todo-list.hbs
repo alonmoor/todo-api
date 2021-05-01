@@ -1,9 +1,10 @@
 <div class="tasks">
   <header>
-    <span class="title">Task List</span>
+    <span class="title">משימות</span>
     <button class="task-add" onclick={{action "newTaskDisplay"}}>
       <span class="plus"/>
     </button>
+
   </header>
   {{#if displayNewTask}}
     <div class="add">
@@ -11,6 +12,7 @@
       <input class="title"/>
       <button onclick={{action "newTaskAdd"}}>Add</button>
       <button onclick={{action "newTaskCancel"}}>Cancel</button>
+
     </div>
   {{/if}}
 
@@ -22,10 +24,12 @@
     {{/each}}
   </div>
 
+
   <footer>
-    <span>Todo  : {{ model.todo  }} </span>
-    <span>Done  : {{ model.done  }} </span>
-    <span>Total : {{ model.total }} </span>
+    <span>לסיום : {{ model.todo  }} </span>
+    <span>הושלמו : {{ model.done  }} </span>
+    <span>סה"כ : {{ model.total }} </span>
+
   </footer>
 </div>
 {{yield}}

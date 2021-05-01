@@ -1,6 +1,6 @@
 body {
   margin: 0;
-
+  //background:green;
 }
 
 .tasks {
@@ -12,7 +12,7 @@ body {
   header {
     display: flex;
     padding  : 0em 1.4em 0em 3.3em;
-    flex-direction: row;
+    flex-direction: row-reverse;
     align-items : center;
 
 
@@ -63,7 +63,7 @@ body {
   footer {
     display: flex;
     margin: 0.2em 0.5em 0.2em 0.5em;
-    flex-direction: row;
+    flex-direction: row-reverse;
     align-items : center;
     span {
       flex-grow: 1;

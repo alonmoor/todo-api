@@ -1,0 +1,35 @@
+{
+  "name": "olympos-gulp",
+  "version": "1.0.0",
+  "description": "Gulp dependencies for Olympos WordPress theme",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "npx npm-force-resolutions"
+  },
+  "resolutions": {
+    "graceful-fs": "^4.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ivandoric/olympos.git"
+  },
+  "author": "Alon moore",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-imagemin": "^2.4.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-rtlcss": "^1.4.1",
+    "gulp-sass": "^4.1.0",
+    "gulp-sourcemaps": "^1.12.1",
+    "gulp-uglifyjs": "^0.6.2",
+    "imagemin-pngquant": "^4.2.2"
+  },
+  "dependencies": {
+    "del": "^3.0.0",
+    "dell": "0.0.0",
+    "node-sass": "^4.14.1"
+  }
+}
