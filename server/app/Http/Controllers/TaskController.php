@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
-class UsersController extends Controller
+
+class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $x =1;
+        //
     }
 
     /**
@@ -23,7 +23,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $x =1;
+        //
     }
 
     /**
@@ -34,11 +34,7 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::create([ //dont need the save method -> pass an array in the model
-            'name' => $request->input('name'),
-            'founded' => $request->input('founded'),
-            'description' => $request->input('description')
-        ]);
+        //
     }
 
     /**
@@ -49,8 +45,8 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
-        var_dump($user->tasks);
+        $task = Task::find($id);
+        var_dump($task->users);
         return view('users.show')->with('user',$user);
     }
 
@@ -62,7 +58,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $x =1;
+        //
     }
 
     /**
@@ -73,16 +69,8 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-   {
-       $x =1;
-
-//        $user = User::where('id', $id)->update([ //dont need the save method -> pass an array in the model
-//            'name' => $request->input('name'),
-//            'founded' => $request->input('founded'),
-//            'description' => $request->input('description')
-//        ]);
-//
-//        return redirect('/cars');
+    {
+        //
     }
 
     /**
@@ -93,6 +81,6 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $x =1;
+        //
     }
 }

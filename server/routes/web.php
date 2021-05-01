@@ -53,7 +53,7 @@ Route::get('/', function () {
 Route::post('/users/{id}', [UsersController::class, 'update']);
 
 Route::resource('users', UsersController::class);
-
+Route::get('/users/{id}', [UsersController::class, 'update']);
 
 //Route::get('/', [
 //    'uses' => [WelcomeController::class, 'index'],
