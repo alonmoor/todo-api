@@ -31,6 +31,7 @@ class CreateTaskUsersTable extends Migration
                 ->on('users')
                 ->onDelete('cascade');
 
+            
         });
     }
 

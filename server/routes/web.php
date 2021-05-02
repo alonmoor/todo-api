@@ -6,6 +6,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WelcomeController;
 use Inertia\Inertia;
 use App\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,25 @@ Route::resource('users', 'UsersController');
 Route::get('/users/{id}', [TestController::class, 'show']);
 
 
+
+
+
+//Route::get('/mult-users', function () {
+//    $tasks = \App\Task::with('users')->get();
+//    return view('tasks.index'.comparesEqualTo('tasks'));
+//});
+
+
+
+
+//Route::get('/tasks', function () {
+//    $task = \App\Task::first();
+//   // dd($tasks->users->first());
+//   // dd($tasks->users->first()->pivot->vcreated_at);
+////    dd($tasks->users);
+//    $tasks =  \App\Task::width('user','task')->get();
+//     return view('tasks.index'.compact('tasks'));
+//});
 
 //---------------------------------------------------------------------------------------------
 //
