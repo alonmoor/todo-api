@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+//use App\Models\User;
 class TaskController extends Controller
 {
     /**
@@ -46,8 +46,8 @@ class TaskController extends Controller
     public function show($id)
     {
         $task = Task::find($id);
-        var_dump($task->users);
-        return view('users.show')->with('user',$user);
+        var_dump($task->tasks);
+        return view('users.show')->with('user',$task);
     }
 
     /**

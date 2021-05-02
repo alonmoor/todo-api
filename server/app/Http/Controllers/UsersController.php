@@ -6,6 +6,101 @@ use Illuminate\Http\Request;
 use App\Models\User;
 class UsersController extends Controller
 {
+//    /**
+//     * Display a listing of the resource.
+//     *
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function index()
+//    {
+//        $x =1;
+//    }
+//
+//    /**
+//     * Show the form for creating a new resource.
+//     *
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function create()
+//    {
+//        $x =1;
+//    }
+//
+//    /**
+//     * Store a newly created resource in storage.
+//     *
+//     * @param  \Illuminate\Http\Request  $request
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function store(Request $request)
+//    {
+//        $user = User::create([ //dont need the save method -> pass an array in the model
+//            'name' => $request->input('name'),
+//            'email' => $request->input('email'),
+//            'password' => $request->input('password')
+//           ]);
+//
+//    }
+//
+//    /**
+//     * Display the specified resource.
+//     *
+//     * @param  int  $id
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function show($id)
+//    {
+//        //$users = User::all();
+//        $user = User::find($id);
+//    //    var_dump($user->tasks);
+//        return view('users.edit')->with('user',$user);
+//    }
+//
+//    /**
+//     * Show the form for editing the specified resource.
+//     *
+//     * @param  int  $id
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function edit($id)
+//    {
+//        $x =1;
+//    }
+//
+//    /**
+//     * Update the specified resource in storage.
+//     *
+//     * @param  \Illuminate\Http\Request  $request
+//     * @param  int  $id
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function update(Request $request, $id)
+//   {
+//       $x =1;
+//
+////        $user = User::where('id', $id)->update([ //dont need the save method -> pass an array in the model
+////            'name' => $request->input('name'),
+////            'founded' => $request->input('founded'),
+////            'description' => $request->input('description')
+////        ]);
+////
+////        return redirect('/cars');
+//    }
+//
+//    /**
+//     * Remove the specified resource from storage.
+//     *
+//     * @param  int  $id
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function destroy($id)
+//    {
+//        $x =1;
+//    }
+
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +108,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $x =1;
+        $users = User::latest()->paginate(5);
+        return view('users.index',compact('users'))->with('i',(request()->input('page',1)-1)*5);
     }
 
     /**
@@ -23,7 +119,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $x =1;
+        return view('users.create');
     }
 
     /**
@@ -34,65 +130,91 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::create([ //dont need the save method -> pass an array in the model
-            'name' => $request->input('name'),
-            'founded' => $request->input('founded'),
-            'description' => $request->input('description')
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
         ]);
+
+        User::create($request->all());
+
+
+            $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password')
+           ]);
+
+
+        return redirect()->route('users.index')
+            ->with('success','User created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::find($id);
-        var_dump($user->tasks);
-        return view('users.show')->with('user',$user);
+        return view('users.show',compact('user'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        $x =1;
+        return view('users.edit',compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-   {
-       $x =1;
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
 
-//        $user = User::where('id', $id)->update([ //dont need the save method -> pass an array in the model
-//            'name' => $request->input('name'),
-//            'founded' => $request->input('founded'),
-//            'description' => $request->input('description')
-//        ]);
-//
-//        return redirect('/cars');
+        $user->update($request->all());
+
+        return redirect()->route('users.index')
+            ->with('success','User updated successfully');
     }
+
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $x =1;
+        $user->delete();
+
+        return redirect()->route('users.index')
+            ->with('success','Users deleted successfully');
     }
+
+
+
+
+
+
+
+
+
+
+
+
 }

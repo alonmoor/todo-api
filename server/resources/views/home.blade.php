@@ -24,4 +24,36 @@
         </section>
     </div>
 </main>
+
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Tasks</th>
+        <th>Users</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    @foreach ($tasks as $task)
+        <tr>
+
+            <td>{{ $task->title }}</td>
+{{--            <td>{{ $task->done }}</td>--}}
+            <td>
+                <ul>
+                    @foreach ($task->users as $user)
+
+                        <li>{{ $user->name }}</li>
+
+                    @endforeach
+                </ul>
+
+            </td>
+        </tr>
+    @endforeach
+    </tbody>
+</table>
+
+
 @endsection

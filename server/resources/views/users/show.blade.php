@@ -1,4 +1,5 @@
- @extends('layouts.app')
+
+@extends('layouts.app')
 
 
 @section('content')
@@ -12,10 +13,13 @@
     <div class="row mx-auto">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Name:</strong>
-                {{ $user->name }}
+                <strong>Email:</strong>
+                {{ $user->email }}
             </div>
         </div>
+
+
+
 {{--        <div class="col-xs-12 col-sm-12 col-md-12">--}}
 {{--            <div class="form-group">--}}
 {{--                <strong>Introduction:</strong>--}}
@@ -34,11 +38,11 @@
 {{--                {{ $user->cost }}--}}
 {{--            </div>--}}
 {{--        </div>--}}
-{{--        <div class="col-xs-12 col-sm-12 col-md-12">--}}
-{{--            <div class="form-group">--}}
-{{--                <strong>Date Created:</strong>--}}
-{{--                {{ date_format($user->created_at, 'jS M Y') }}--}}
-{{--            </div>--}}
-{{--        </div>--}}
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Date Created:</strong>
+                {{ date_format($user->created_at, 'jS M Y') }}
+            </div>
+        </div>
     </div>
      @endsection

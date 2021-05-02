@@ -170,17 +170,16 @@
             </div>
 
 {{--{{ $users = view('users.index', compact('user'))->render();  }}--}}
-
-        <form class="block" action="/users" method="post">
-{{--            {{ @csrf_field() }}--}}
-            @csrf
-            @method('PUT')
+{{--            <form action="{{ route('users.update','update_tasks') }}" method="POST">--}}
+{{--            <form action="{{ url(users)}}" method="POST">--}}
+            <form action="{{ route('users.store') }}" method="POST">
+                @csrf
                     <div class="modal-body">
 
                         <div>
                             @foreach(\App\Models\User::get() as $user)
                             <div class="form-group form-check  form-control-lg">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <input type="checkbox" class="form-check-input" id="{{ $user->id }}">
                                 <input class="form-control form-control-sm" type="text"  value="{{ $user->name }}"  >
                             </div>
                             @endforeach
