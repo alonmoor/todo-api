@@ -54,7 +54,9 @@ Route::get('/', function () {
 
 //------------------------------------------------------------------------------------------------------
 Route::resource('/users', UsersController::class,);
-Route::post('/', [UsersController::class, "store"]);
+//Route::post('/', [UsersController::class, "store"]);
+
+//Route::resource('/', UsersController::class,);
 
 //Route::post('/users/{id}', [UsersController::class, 'update']);
 
@@ -91,7 +93,7 @@ Route::post('/', [UsersController::class, "store"]);
 //});
 
 
-Route::get('/mult-users', [TasksUsersController::class, 'index'])->name('multi-insert');
+//Route::get('/mult-users', [TasksUsersController::class, 'index'])->name('multi-insert');
 
 
 

@@ -8,6 +8,8 @@
     {{--=================================================================================--}}
     <meta name="client/config/environment" content="%7B%22modulePrefix%22%3A%22client%22%2C%22environment%22%3A%22development%22%2C%22rootURL%22%3A%22/%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%22name%22%3A%22client%22%2C%22version%22%3A%220.0.0+6e75d09c%22%7D%2C%22ember-cli-mirage%22%3A%7B%22usingProxy%22%3Afalse%2C%22useDefaultPassthroughs%22%3Atrue%7D%2C%22exportApplicationGlobal%22%3Atrue%7D" />
     <script src="/ember-cli-live-reload.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
 
     <link integrity="" rel="stylesheet" href="/app/assets/vendor.css">
     <link integrity="" rel="stylesheet" href="/app/assets/client.css">
@@ -112,22 +114,27 @@
                 <span id="form_result"></span>
             <form method="post" id="sample_form" class="form-horizontal">
                 @csrf
-
+{{--                @method(‘PUT’)--}}
                     <input type="hidden" name="task_id_hidden" id="task_id_hidden" />
                     <div>
                         @foreach(\App\Models\User::get() as $user)
                             <div class="form-group form-check  form-control-lg">
-                                <input type="checkbox" class="form-check-input" data-id="{{ $user->id }}" id="{{ $user->id }}">
-                                {{--                                <input class="form-control form-control-sm" type="text" data-id="{{ $user->id }}" id="{{ $user->id }}" value="{{ $user->name }}"  >--}}
-                                <input name="user_checkbox" class="form-control form-control-sm" value="{{ $user->value ?? null }}" {{ $user->value ? null : 'disabled' }} data-id="{{ $user->id }}" name="users[{{ $user->id }}]" type="text"  placeholder="{{ $user->name }}">
+{{--                                <input type="checkbox" class="form-check-input" data-id="{{ $user->id }}" id="{{ $user->id }}">--}}
+
+                                <input type="checkbox" name="chks[]" class="form-check-input" data-id="{{ $user->id }}" id="{{ $user->name }}_{{ $user->id }}">
+                                <input name="user_checkbox" class="form-control form-control-sm" value="{{ $user->value ?? null }}" {{ $user->value ? null : 'disabled' }} data-id="{{ $user->id }}" name="user_{{ $user->id }}" type="text"  placeholder="{{ $user->name }}">
 
                             </div>
                         @endforeach
                     </div>
 
                         <div class="modal-footer">
-{{--                            <button type="submit" class="btn btn-primary" id="action_button"  value="Add">Submit</button>--}}
-                            <input type="submit" name="action_button" id="action_button" class="btn tn-primary" value="Add" />
+                            <div class="form-group" align="center">
+                                <input type="hidden" name="action" id="action" value="Add" />
+                                <input type="hidden" name="hidden_id" id="hidden_id" />
+                                <input type="submit" name="action_button" id="action_button" class="btn btn-primary" value="Add" />
+                            </div>
+
                         </div>
 
                     </form>
@@ -158,11 +165,11 @@
     });
 
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+    // $.ajaxSetup({
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     }
+    // });
 
         $('#sample_form').on('submit', function(event){
             event.preventDefault();
@@ -177,10 +184,11 @@
             {{--{--}}
             {{--    action_url = "{{ route('sample.update') }}";--}}
             {{--}--}}
-
+            var chks = $('input:checkbox[name="chks[]"]:checked').map(function(){return $(this).val();}).get();
+            debugger;
             $.ajax({
                 url: action_url,
-                method:"POST",
+                type:"POST",
                 data:$(this).serialize(),
                 dataType:"json",
                 success:function(data)
@@ -231,6 +239,7 @@
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 

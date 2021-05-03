@@ -56,8 +56,9 @@ class UsersController extends Controller
             'user_id'    =>  'required',
             'task_id'     =>  'required'
         );
+       $task_id = $request->task_id_hidden;
 
-        $error = Validator::make($request->all(), $rules);
+       $error = Validator::make($request->all(), $rules);
 
         if($error->fails())
         {
