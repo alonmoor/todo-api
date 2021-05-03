@@ -91,68 +91,6 @@
 <script src="/app/assets/vendor.js"></script>
 <script src="/app/assets/client.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        var postURL = "<?php echo url('addmore'); ?>";
-        var i=1;
-
-        $('#add').click(function(){
-            i++;
-            $('#dynamic_field').append('<tr id="row'+i+'" class="dynamic-added"><td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
-        });
-
-        $(document).on('click', '.share_user_task', function(){
-            debugger;
-            var share_user_task_id = $(this).attr("id");
-            share_user_task_id = share_user_task_id.split("_");
-            document.getElementById('task_id_hidden').value = share_user_task_id[2]);
-
-        //  alert(share_user_task_id[2]);
-        //$('#row'+button_id+'').remove();
-
-    });
-
-
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    $('#submit').click(function(){
-        $.ajax({
-            url:postURL,
-            method:"POST",
-            data:$('#add_name').serialize(),
-            type:'json',
-            success:function(data)
-            {
-                if(data.error){
-                    printErrorMsg(data.error);
-                }else{
-                    i=1;
-                    $('.dynamic-added').remove();
-                    $('#add_name')[0].reset();
-                    $(".print-success-msg").find("ul").html('');
-                    $(".print-success-msg").css('display','block');
-                    $(".print-error-msg").css('display','none');
-                    $(".print-success-msg").find("ul").append('<li>Record Inserted Successfully.</li>');
-                }
-            }
-        });
-    });
-
-    function printErrorMsg (msg) {
-        $(".print-error-msg").find("ul").html('');
-        $(".print-error-msg").css('display','block');
-        $(".print-success-msg").css('display','none');
-        $.each( msg, function( key, value ) {
-            $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
-        });
-    }
-    });
-</script>
-
 
 
 <!------------ Start Modal------------------------->
@@ -169,33 +107,119 @@
             {{--{{ $users = view('users.index', compact('user'))->render();  }}--}}
             {{--            <form action="{{ route('users.update','update_tasks') }}" method="POST">--}}
 
-            <form action="{{ route('users.store') }}" method="POST" >
+{{--            <form  id="sample_form" action="{{ route('users.store') }}" method="POST" >--}}
+            <div class="modal-body">
+                <span id="form_result"></span>
+            <form method="post" id="sample_form" class="form-horizontal">
                 @csrf
-                <div class="modal-body">
+
                     <input type="hidden" name="task_id_hidden" id="task_id_hidden" />
                     <div>
                         @foreach(\App\Models\User::get() as $user)
                             <div class="form-group form-check  form-control-lg">
                                 <input type="checkbox" class="form-check-input" data-id="{{ $user->id }}" id="{{ $user->id }}">
-{{--                                <input class="form-control form-control-sm" type="text" data-id="{{ $user->id }}" id="{{ $user->id }}" value="{{ $user->name }}"  >--}}
+                                {{--                                <input class="form-control form-control-sm" type="text" data-id="{{ $user->id }}" id="{{ $user->id }}" value="{{ $user->name }}"  >--}}
                                 <input name="user_checkbox" class="form-control form-control-sm" value="{{ $user->value ?? null }}" {{ $user->value ? null : 'disabled' }} data-id="{{ $user->id }}" name="users[{{ $user->id }}]" type="text"  placeholder="{{ $user->name }}">
 
                             </div>
                         @endforeach
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                        <div class="modal-footer">
+{{--                            <button type="submit" class="btn btn-primary" id="action_button"  value="Add">Submit</button>--}}
+                            <input type="submit" name="action_button" id="action_button" class="btn tn-primary" value="Add" />
+                        </div>
+
+                    </form>
                 </div>
 
-                <div class="modal-footer">
-                </div>
 
-            </form>
-            <!------------ EndForm------------------------->
+
+
+
         </div>
     </div>
 </div>
 
-<!------------ End Modal------------------------->
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $(document).on('click', '.share_user_task', function(){
+            debugger;
+            var share_user_task_id = $(this).attr("id");
+            share_user_task_id = share_user_task_id.split("_");
+            document.getElementById('task_id_hidden').value = share_user_task_id[2];
+
+        //  alert(share_user_task_id[2]);
+        //$('#row'+button_id+'').remove();
+
+    });
+
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+        $('#sample_form').on('submit', function(event){
+            event.preventDefault();
+            var action_url = '';
+
+            if($('#action').val() == 'Add')
+            {
+                action_url = "{{ route('users.store') }}";
+            }
+
+            {{--if($('#action').val() == 'Edit')--}}
+            {{--{--}}
+            {{--    action_url = "{{ route('sample.update') }}";--}}
+            {{--}--}}
+
+            $.ajax({
+                url: action_url,
+                method:"POST",
+                data:$(this).serialize(),
+                dataType:"json",
+                success:function(data)
+                {
+                    var html = '';
+                    if(data.errors)
+                    {
+                        html = '<div class="alert alert-danger">';
+                        for(var count = 0; count < data.errors.length; count++)
+                        {
+                            html += '<p>' + data.errors[count] + '</p>';
+                        }
+                        html += '</div>';
+                    }
+                    if(data.success)
+                    {
+                        html = '<div class="alert alert-success">' + data.success + '</div>';
+                        $('#sample_form')[0].reset();
+                        $('#user_table').DataTable().ajax.reload();
+                    }
+                    $('#form_result').html(html);
+                }
+            });
+        });
+    function printErrorMsg (msg) {
+        $(".print-error-msg").find("ul").html('');
+        $(".print-error-msg").css('display','block');
+        $(".print-success-msg").css('display','none');
+        $.each( msg, function( key, value ) {
+            $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+        });
+    }
+    });
+</script>
+
+
+
+
+
 
 
 

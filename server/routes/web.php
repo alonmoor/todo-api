@@ -54,7 +54,7 @@ Route::get('/', function () {
 
 //------------------------------------------------------------------------------------------------------
 Route::resource('/users', UsersController::class,);
-
+Route::post('/', [UsersController::class, "store"]);
 
 //Route::post('/users/{id}', [UsersController::class, 'update']);
 

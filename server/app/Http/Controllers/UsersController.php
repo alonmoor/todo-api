@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Task;
+use App\Models\TaskUser;
 use Validator;
 //use DataTables;
 
@@ -52,8 +53,8 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $rules = array(
-            'first_name'    =>  'required',
-            'last_name'     =>  'required'
+            'user_id'    =>  'required',
+            'task_id'     =>  'required'
         );
 
         $error = Validator::make($request->all(), $rules);
@@ -64,8 +65,8 @@ class UsersController extends Controller
         }
 
         $form_data = array(
-            'first_name'        =>  $request->first_name,
-            'last_name'         =>  $request->last_name
+            'user_id'        =>  $request->user_id,
+            'task_id'         =>  $request->task_id
         );
 
         Sample_data::create($form_data);
