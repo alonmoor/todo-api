@@ -115,13 +115,13 @@
             <form method="post" id="sample_form" class="form-horizontal">
                 @csrf
 {{--                @method(‘PUT’)--}}
-                    <input type="hidden" name="task_id_hidden" id="task_id_hidden" />
+                    <input type="hidden" name="task_id_hidden" id="task_id_hidden" value=""/>
                     <div>
                         @foreach(\App\Models\User::get() as $user)
                             <div class="form-group form-check  form-control-lg">
 {{--                                <input type="checkbox" class="form-check-input" data-id="{{ $user->id }}" id="{{ $user->id }}">--}}
 
-                                <input type="checkbox" name="chks[]" class="form-check-input" data-id="{{ $user->id }}" id="{{ $user->name }}_{{ $user->id }}">
+                                <input type="checkbox" name="chks[]" class="form-check-input check_user" data-id="{{ $user->id }}" id="user_{{ $user->id }}">
                                 <input name="user_checkbox" class="form-control form-control-sm" value="{{ $user->value ?? null }}" {{ $user->value ? null : 'disabled' }} data-id="{{ $user->id }}" name="user_{{ $user->id }}" type="text"  placeholder="{{ $user->name }}">
 
                             </div>
@@ -165,12 +165,6 @@
     });
 
 
-    // $.ajaxSetup({
-    //     headers: {
-    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //     }
-    // });
-
         $('#sample_form').on('submit', function(event){
             event.preventDefault();
             var action_url = '';
@@ -180,16 +174,23 @@
                 action_url = "{{ route('users.store') }}";
             }
 
-            {{--if($('#action').val() == 'Edit')--}}
-            {{--{--}}
-            {{--    action_url = "{{ route('sample.update') }}";--}}
-            {{--}--}}
-            var chks = $('input:checkbox[name="chks[]"]:checked').map(function(){return $(this).val();}).get();
+            var chks = $('input:checkbox[name="chks[]"]:checked').map(function(){return $(this).attr('id');}).get();
+           //  var user_to_store = [];
+           //  $("input:checkbox[name=chks]:checked").each(function(){
+           //      user_to_store.push($(this).attr('id'));
+           //  });
+          //  chks= JSON.stringify(chks);
+
             debugger;
             $.ajax({
                 url: action_url,
                 type:"POST",
-                data:$(this).serialize(),
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+              // data :  $( this ).serializeArray(),//$(this).serialize(),
+                data: {
+                       data : chks,
+                       task_id:$( this ).serializeArray()
+                        },
                 dataType:"json",
                 success:function(data)
                 {

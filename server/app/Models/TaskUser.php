@@ -12,4 +12,5 @@ class TaskUser extends Model
         'user_id', 'task_id'
     ];
 
+    protected $table = 'task_user';
 }

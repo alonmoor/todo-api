@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     protected $fillable = ['title', 'done'];
+//    protected $table = 'tasks';
+//    protected $primaryKey = 'id';
+//    protected $timestamps = true ;
+
 
     public function users(){
 

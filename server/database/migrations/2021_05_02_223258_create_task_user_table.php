@@ -33,7 +33,6 @@ class CreateTaskUserTable extends Migration
 
 
 
-
         });
 
     }

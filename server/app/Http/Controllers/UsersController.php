@@ -7,8 +7,9 @@ use App\Models\User;
 use App\Task;
 use App\Models\TaskUser;
 use Validator;
+use Illuminate\Support\Facades\Auth;
 //use DataTables;
-
+//https://www.youtube.com/watch?v=376vZ1wNYPA-
 class UsersController extends Controller
 {
 
@@ -39,9 +40,17 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($form_data='')
     {
-        $x = 1;
+//        $task = new Task();
+//
+//        $task->id = $form_data['task_id'];
+//        $task->save();
+//
+//        $users = $form_data[$userids];
+//        $task->users()->sync($users);
+//
+//        return redirect()->route('/home');
     }
 
     /**
@@ -52,13 +61,32 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+
+        $arr_input = $request->task_id;
+        if (is_array($arr_input) && count($arr_input) > 0) {
+            foreach ($arr_input as $task) {
+                if ($task['name'] == 'task_id_hidden') {
+                    $task_id = $task['value'];
+                    break;
+                }
+            }
+        }
+        if (is_array($request->data) && count($request->data) > 0) {
+            foreach ($request->data as $user) {
+
+                $id = explode('_', $user);
+                $id = $id['1'];
+                $userids [] = $id;
+            }
+        }
+
         $rules = array(
-            'user_id'    =>  'required',
+
+            'data'    =>  'required',
             'task_id'     =>  'required'
         );
-       $task_id = $request->task_id_hidden;
 
-       $error = Validator::make($request->all(), $rules);
+        $error = Validator::make($request->all(), $rules);
 
         if($error->fails())
         {
@@ -66,13 +94,32 @@ class UsersController extends Controller
         }
 
         $form_data = array(
-            'user_id'        =>  $request->user_id,
-            'task_id'         =>  $request->task_id
+            'user_id'        =>  $userids,
+            'task_id'         =>  $task_id
         );
 
-        Sample_data::create($form_data);
+        $task = Task::find($form_data['task_id']);
 
-        return response()->json(['success' => 'Data Added successfully.']);
+        $intArray = array_map(
+            function($value) { return (int)$value; },
+            $userids
+        );
+
+        $request->validate([
+
+        ]);
+
+        $task->users()->syncWithoutDetaching($intArray);
+
+        $task->users()->sync($intArray);
+
+        if (Auth::user()) {   // Check is user logged in
+            return redirect()->route('/home');
+        } else {
+            return redirect()->route('/');
+        }
+
+        //   return response()->json(['success' => 'Data Added successfully.']);
 
     }
 
