@@ -46,7 +46,7 @@ class TaskController extends Controller
     public function show($id)
     {
         $task = Task::find($id);
-        var_dump($task->tasks);
+        //var_dump($task->tasks);
         return view('users.show')->with('user',$task);
     }
 

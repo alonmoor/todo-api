@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-{{--=================================================================================--}}
+    {{--=================================================================================--}}
     <meta name="client/config/environment" content="%7B%22modulePrefix%22%3A%22client%22%2C%22environment%22%3A%22development%22%2C%22rootURL%22%3A%22/%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%22name%22%3A%22client%22%2C%22version%22%3A%220.0.0+6e75d09c%22%7D%2C%22ember-cli-mirage%22%3A%7B%22usingProxy%22%3Afalse%2C%22useDefaultPassthroughs%22%3Atrue%7D%2C%22exportApplicationGlobal%22%3Atrue%7D" />
     <script src="/ember-cli-live-reload.js" type="text/javascript"></script>
 
@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 {{--=================================================================================--}}
 
-    <!-- CSRF Token -->
+<!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
@@ -105,56 +105,53 @@
             debugger;
             var share_user_task_id = $(this).attr("id");
             share_user_task_id = share_user_task_id.split("_");
-          //  alert(share_user_task_id[2]);
-            //$('#row'+button_id+'').remove();
+            document.getElementById('task_id_hidden').value = share_user_task_id[2]);
 
-        });
+        //  alert(share_user_task_id[2]);
+        //$('#row'+button_id+'').remove();
+
+    });
 
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $('#submit').click(function(){
-            $.ajax({
-                url:postURL,
-                method:"POST",
-                data:$('#add_name').serialize(),
-                type:'json',
-                success:function(data)
-                {
-                    if(data.error){
-                        printErrorMsg(data.error);
-                    }else{
-                        i=1;
-                        $('.dynamic-added').remove();
-                        $('#add_name')[0].reset();
-                        $(".print-success-msg").find("ul").html('');
-                        $(".print-success-msg").css('display','block');
-                        $(".print-error-msg").css('display','none');
-                        $(".print-success-msg").find("ul").append('<li>Record Inserted Successfully.</li>');
-                    }
-                }
-            });
-        });
-
-        function printErrorMsg (msg) {
-            $(".print-error-msg").find("ul").html('');
-            $(".print-error-msg").css('display','block');
-            $(".print-success-msg").css('display','none');
-            $.each( msg, function( key, value ) {
-                $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
-            });
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-</script>
 
-<!-- Button trigger modal -->
-{{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">--}}
-{{--    Launch demo modal--}}
-{{--</button>--}}
+    $('#submit').click(function(){
+        $.ajax({
+            url:postURL,
+            method:"POST",
+            data:$('#add_name').serialize(),
+            type:'json',
+            success:function(data)
+            {
+                if(data.error){
+                    printErrorMsg(data.error);
+                }else{
+                    i=1;
+                    $('.dynamic-added').remove();
+                    $('#add_name')[0].reset();
+                    $(".print-success-msg").find("ul").html('');
+                    $(".print-success-msg").css('display','block');
+                    $(".print-error-msg").css('display','none');
+                    $(".print-success-msg").find("ul").append('<li>Record Inserted Successfully.</li>');
+                }
+            }
+        });
+    });
+
+    function printErrorMsg (msg) {
+        $(".print-error-msg").find("ul").html('');
+        $(".print-error-msg").css('display','block');
+        $(".print-success-msg").css('display','none');
+        $.each( msg, function( key, value ) {
+            $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+        });
+    }
+    });
+</script>
 
 
 
@@ -169,32 +166,34 @@
                 </button>
             </div>
 
-{{--{{ $users = view('users.index', compact('user'))->render();  }}--}}
-{{--            <form action="{{ route('users.update','update_tasks') }}" method="POST">--}}
-{{--            <form action="{{ url(users)}}" method="POST">--}}
-            <form action="{{ route('users.store') }}" method="POST">
+            {{--{{ $users = view('users.index', compact('user'))->render();  }}--}}
+            {{--            <form action="{{ route('users.update','update_tasks') }}" method="POST">--}}
+
+            <form action="{{ route('users.store') }}" method="POST" >
                 @csrf
-                    <div class="modal-body">
-
-                        <div>
-                            @foreach(\App\Models\User::get() as $user)
+                <div class="modal-body">
+                    <input type="hidden" name="task_id_hidden" id="task_id_hidden" />
+                    <div>
+                        @foreach(\App\Models\User::get() as $user)
                             <div class="form-group form-check  form-control-lg">
-                                <input type="checkbox" class="form-check-input" id="{{ $user->id }}">
-                                <input class="form-control form-control-sm" type="text"  value="{{ $user->name }}"  >
-                            </div>
-                            @endforeach
-                        </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
+                                <input type="checkbox" class="form-check-input" data-id="{{ $user->id }}" id="{{ $user->id }}">
+{{--                                <input class="form-control form-control-sm" type="text" data-id="{{ $user->id }}" id="{{ $user->id }}" value="{{ $user->name }}"  >--}}
+                                <input name="user_checkbox" class="form-control form-control-sm" value="{{ $user->value ?? null }}" {{ $user->value ? null : 'disabled' }} data-id="{{ $user->id }}" name="users[{{ $user->id }}]" type="text"  placeholder="{{ $user->name }}">
 
-                    <div class="modal-footer">
+                            </div>
+                        @endforeach
                     </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+                <div class="modal-footer">
+                </div>
 
             </form>
-        <!------------ EndForm------------------------->
-                </div>
-            </div>
+            <!------------ EndForm------------------------->
         </div>
+    </div>
+</div>
 
 <!------------ End Modal------------------------->
 

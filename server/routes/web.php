@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\TasksUsersController;
 use Inertia\Inertia;
 use App\Task;
 use App\Models\User;
@@ -38,29 +39,32 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Auth::routes();
 
+
+
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/', function () {
     return view('welcome');
 });
-Auth::routes();
-
-Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
-Route::post('/users/{id}', [UsersController::class, 'update']);
+//Route::post('/', function () {
+//    return view('welcome');
+//});
 
-Route::resource('users', 'UsersController');
+//------------------------------------------------------------------------------------------------------
+Route::resource('/users', UsersController::class,);
+
+
+//Route::post('/users/{id}', [UsersController::class, 'update']);
+
+
 //Route::get('/users/{id}', [UsersController::class, 'update']);
-Route::get('/users/{id}', [TestController::class, 'show']);
+//Route::get('/users/{id}', [TestController::class, 'show']);
 
 
 
-
+//Route::resource('usres/{id}', UsersController::class);
 
 //Route::get('/mult-users', function () {
 //    $tasks = \App\Task::with('users')->get();
@@ -78,6 +82,19 @@ Route::get('/users/{id}', [TestController::class, 'show']);
 //    $tasks =  \App\Task::width('user','task')->get();
 //     return view('tasks.index'.compact('tasks'));
 //});
+
+
+
+//Route::get('/mult-users', function () {
+//    $tasks = \App\Task::with('users')->get();
+//    return view('tasks.index'.comparesEqualTo('tasks'));
+//});
+
+
+Route::get('/mult-users', [TasksUsersController::class, 'index'])->name('multi-insert');
+
+
+
 
 //---------------------------------------------------------------------------------------------
 //

@@ -13,7 +13,7 @@ class UserFactory extends Factory
      *
      * @var string
      */
-    protected $model = User::class;
+    protected $model = \App\Models\User::class;
 
     /**
      * Define the model's default state.

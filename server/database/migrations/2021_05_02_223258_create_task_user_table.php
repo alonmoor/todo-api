@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTaskUsersTable extends Migration
+class CreateTaskUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,26 +13,29 @@ class CreateTaskUsersTable extends Migration
      */
     public function up()
     {
-//        Schema::create('task_users', function (Blueprint $table) {
-//            $table->id();
-//            $table->timestamps();
-//        });
-           Schema::create('task_user', function (Blueprint $table) {
-            $table->integer('task_id')->unsigned();
-            $table->integer('user_id')->unsigned();
 
-            $table->foreign('task_id')
-                ->references('id')
-                ->on('tasks')
-                ->onDelete('cascade');
+        Schema::create('task_user', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id')->unsigned();
+            $table->integer('task_id')->unsigned();
+            $table->string('extra_field')->nullable();
+            $table->timestamps();
 
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
 
-            
+            $table->foreign('task_id')
+                ->references('id')
+                ->on('tasks')
+                ->onDelete('cascade');
+
+
+
+
         });
+
     }
 
     /**
@@ -42,6 +45,6 @@ class CreateTaskUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('task_users');
+        Schema::dropIfExists('task_user');
     }
 }
