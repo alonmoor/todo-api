@@ -36,6 +36,7 @@
         <tbody>
             @foreach ($users as $user)
                 <tr>
+                    {{ $i=0 }}
                     <td scope="row">{{ ++$i }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
@@ -67,7 +68,7 @@
         </tbody>
     </table>
 
-    {!! $users->links() !!}
+{{--    {!! $users->links() !!}--}}
 
 
     <!-- small modal -->

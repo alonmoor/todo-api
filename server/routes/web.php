@@ -41,7 +41,7 @@ Auth::routes();
 
 
 
-Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/', function () {
     return view('welcome');
@@ -54,7 +54,12 @@ Route::get('/', function () {
 
 //------------------------------------------------------------------------------------------------------
 Route::resource('/users', UsersController::class,);
-//Route::post('/', [UsersController::class, "store"]);
+Route::get('/home', [\App\Http\Controllers\UsersController::class, 'index'])->name('home');
+
+//Route::resource('users', UsersController::class,);
+//Route::post('/users', '\App\Http\Controllers\UsersController@index');
+//Route::get('/users/about', [UsersController::class]);
+//Route::post('/users', [UsersController::class, "index"]);
 
 //Route::resource('/', UsersController::class,);
 

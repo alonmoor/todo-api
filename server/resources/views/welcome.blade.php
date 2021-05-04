@@ -181,7 +181,6 @@
            //  });
           //  chks= JSON.stringify(chks);
 
-            debugger;
             $.ajax({
                 url: action_url,
                 type:"POST",
@@ -206,6 +205,8 @@
                     }
                     if(data.success)
                     {
+                        debugger;
+                        $('#exampleModal').hide().fadeOut('slow');
                         html = '<div class="alert alert-success">' + data.success + '</div>';
                         $('#sample_form')[0].reset();
                         $('#user_table').DataTable().ajax.reload();

@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="row">
+    @foreach(\App\Models\User::get() as $user)
     <div class="col-lg-12 margin-tb">
         <div class="text-center">
             <h2 class="font-weight-bold"> {{ $user->name }}</h2>
@@ -44,5 +45,6 @@
                 {{ date_format($user->created_at, 'jS M Y') }}
             </div>
         </div>
+        @endforeach
     </div>
      @endsection
