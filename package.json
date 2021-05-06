@@ -17,10 +17,9 @@
   "author": "Alon moore",
   "license": "ISC",
   "devDependencies": {
-    "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
-    "gulp-imagemin": "^2.4.0",
-    "gulp-livereload": "^3.8.1",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-livereload": "^4.0.2",
     "gulp-rtlcss": "^1.4.1",
     "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^1.12.1",

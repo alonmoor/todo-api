@@ -30,5 +30,8 @@
         "vue": "^3.0.5",
         "vue-loader": "^16.1.2",
         "vue-template-compiler": "^2.6.11"
+    },
+    "dependencies": {
+        "livereload": "^0.9.3"
     }
 }

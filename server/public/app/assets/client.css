@@ -1,0 +1,148 @@
+body {
+  margin: 0;
+}
+
+.modal-header {
+  background: #DFB767;
+  background: linear-gradient(to bottom, #EBCE89 0%, #BA7F31 100%);
+}
+
+.tasks {
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.tasks header {
+  display: flex;
+  padding: 0em 1.4em 0em 3.3em;
+  flex-direction: row-reverse;
+  align-items: center;
+  background: #DFB767;
+  background: linear-gradient(to bottom, #EBCE89 0%, #BA7F31 100%);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.tasks header span.title {
+  margin: 1.2em 0 1.2em 0;
+  font-weight: 600;
+  display: block;
+  flex-grow: 1;
+  text-align: center;
+}
+.tasks header .task-add {
+  display: block;
+  background: #FCFAFC;
+  background: linear-gradient(to bottom, #FCFAFC 0%, #AFA192 100%);
+  width: 3em;
+  height: 3em;
+  margin: 0.4em 0 0.6em 0;
+  display: block;
+  border: 2px solid #ACAEA2;
+  border-radius: 10px;
+}
+.tasks header .task-add .plus {
+  background: #FCFAFC;
+  background: linear-gradient(to bottom, #FCFAFC 0%, #AFA192 100%);
+  height: 2em;
+  width: 2em;
+  border: 1px solid #000;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0.3em -0.2em;
+}
+.tasks header .task-add .plus::after {
+  font-size: 24px;
+  content: "+";
+}
+.tasks header .task-add:hover {
+  border: 2px solid #00f;
+}
+.tasks footer {
+  display: flex;
+  margin: 0.2em 0.5em 0.2em 0.5em;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+.tasks footer span {
+  flex-grow: 1;
+  text-align: right;
+}
+.tasks .add {
+  display: flex;
+  margin: 1em;
+}
+.tasks .add label {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin: 0 0.5em;
+}
+.tasks .add input {
+  flex-grow: 1;
+  margin: 0 0.5em;
+}
+.tasks .add button {
+  min-width: 9em;
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin: 0 0.5em;
+}
+.tasks .list {
+  flex-grow: 1;
+  flex-shrink: 1;
+  justify-content: space-between;
+  background: #E5E5E5;
+  max-height: 100%;
+  overflow-y: scroll;
+}
+.tasks .task {
+  padding: 1em 0.8em 1em 0.3em;
+  border-bottom: 3px solid #000;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.tasks .task:nth-child(2n+1) {
+  background: #F3F6E3;
+}
+.tasks .task .task-mark {
+  width: 40px;
+  height: 40px;
+  display: block;
+  margin: 0 1.2em 0 0;
+  border: 2px solid #ACAEA2;
+  background: #F0F0F0;
+  border-radius: 10px;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+.tasks .task .task-title {
+  flex-grow: 1;
+}
+.tasks .task .task-title .index {
+  font-size: 1.4em;
+  font-weight: 500;
+}
+.tasks .task .task-del {
+  color: #1B1A1C;
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  vertical-align: middle;
+  padding-left: 20px;
+  padding: 5px 10px;
+}
+.tasks .task .task-del:hover {
+  color: #00f;
+}
+.tasks .task.done .task-mark {
+  border-color: #95968F;
+  background: #737373;
+}
+.tasks .task.done .task-title {
+  color: #737C73;
+  text-decoration-color: #737C73;
+  text-decoration-line: line-through;
+}
+
+/*# sourceMappingURL=client.css.map */

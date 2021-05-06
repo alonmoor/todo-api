@@ -2,6 +2,10 @@ body {
   margin: 0;
   //background:green;
 }
+.modal-header{
+  background: #DFB767;
+  background: linear-gradient(to bottom, #EBCE89 0%, #BA7F31 100%);
+}
 
 .tasks {
   font-size: 20px;
@@ -18,6 +22,7 @@ body {
 
     background: #DFB767;
     background: linear-gradient(to bottom, #EBCE89 0%,#BA7F31 100%);
+
     box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
 
     span.title {
@@ -25,6 +30,7 @@ body {
       font-weight: 600;
       display: block;
       flex-grow: 1;
+      text-align: center;
     }
 
     .task-add {
@@ -67,6 +73,7 @@ body {
     align-items : center;
     span {
       flex-grow: 1;
+      text-align: right;
     }
 
   }
@@ -160,12 +167,6 @@ body {
     }
   }
 }
-
-
-
-
-
-
 
 
 

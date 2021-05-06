@@ -203,15 +203,15 @@
                         }
                         html += '</div>';
                     }
-                    if(data.success)
+                    if(data.data.length)
                     {
                         debugger;
                         $('#exampleModal').hide().fadeOut('slow');
-                        html = '<div class="alert alert-success">' + data.success + '</div>';
-                        $('#sample_form')[0].reset();
-                        $('#user_table').DataTable().ajax.reload();
+                        html1 = '<div class="alert alert-success">' + data.success + '</div>';
+                     //   $('#exampleModal')[0].reset();
+                        location.reload();
                     }
-                    $('#form_result').html(html);
+                    $('#form_result').html(html1);
                 }
             });
         });

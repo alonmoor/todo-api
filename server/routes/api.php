@@ -5,6 +5,8 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Task;
+use App\Models\User;
+use App\Models\TaskUser;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -45,11 +47,54 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 */
+
+
+//
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+//
+//Route::get('/companies', [\App\Http\Controllers\CompanyController::class, 'index']);
+//Route::get('/companies/{company}', [\App\Http\Controllers\CompanyController::class, 'show']);
+//Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
+
+
+
+
+
+
+
+
+
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+//
+//Route::get('/tasks', [\App\Http\Controllers\CompanyController::class, 'index']);
+//Route::get('/companies/{company}', [\App\Http\Controllers\CompanyController::class, 'show']);
+//Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
+
+
+
+
+//Route::get('task_user', function() {
+////Route::get('task_user/{id}', function() {
+//    // If the Content-Type and Accept headers are set to 'application/json',
+//    // this will return a JSON structure. This will be cleaned up later.
+//    return \App\Models\TaskUser::all();
+////    $id = Auth::user()->id;
+////    return TaskUser::find($id);
+//});
+
+
 Route::get('tasks', function() {
     // If the Content-Type and Accept headers are set to 'application/json',
     // this will return a JSON structure. This will be cleaned up later.
     return Task::all();
 });
+
+
+
 Route::get('tasks/{id}', function($id) {
     return Task::find($id);
 });
