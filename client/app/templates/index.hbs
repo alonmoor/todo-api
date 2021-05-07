@@ -1,3 +1,25 @@
-
+{{user-list model=model}}
 {{todo-list model=model}}
 {{outlet}}
+
+{{todo-list model=model}}
+{{user-list model=model}}
+{{outlet}}
+<h2>Tasksssssssssssssssssssss</h2>
+{{#each model.tasks as |task|}}
+  <h3>{{task.title}}</h3>
+  {{#each  task.users as |user|}}
+    <p>{{user.name}}</p>
+  {{/each}}
+{{/each}}
+
+
+
+
+<h3>userssssssssssssssssssssssssssssss</h3>
+{{#each model.users as |user|}}
+  <h3>{{user.name}}</h3>
+  {{#each user.tasks as |task|}}
+    <p>{{task.name}}</p>
+  {{/each}}
+{{/each}}

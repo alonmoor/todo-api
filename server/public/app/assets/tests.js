@@ -5986,17 +5986,22 @@ define('client/tests/lint/app.lint-test', [], function () {
 
   QUnit.test('components/todo-item.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'components/todo-item.js should pass ESLint\n\n4:10 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)\n4:10 - \'Ember\' is not defined. (no-undef)');
+    assert.ok(false, 'components/todo-item.js should pass ESLint\n\n5:10 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)');
   });
 
   QUnit.test('components/todo-list.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'components/todo-list.js should pass ESLint\n\n4:10 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)\n4:10 - \'Ember\' is not defined. (no-undef)');
+    assert.ok(false, 'components/todo-list.js should pass ESLint\n\n5:10 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)');
   });
 
   QUnit.test('models/task.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'models/task.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('models/user.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'models/user.js should pass ESLint\n\n');
   });
 
   QUnit.test('resolver.js', function (assert) {
@@ -6011,7 +6016,7 @@ define('client/tests/lint/app.lint-test', [], function () {
 
   QUnit.test('routes/index.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'routes/index.js should pass ESLint\n\n');
+    assert.ok(false, 'routes/index.js should pass ESLint\n\n64:7 - \'UserData\' is assigned a value but never used. (no-unused-vars)\n88:13 - \'tasks\' is assigned a value but never used. (no-unused-vars)\n90:9 - \'users\' is not defined. (no-undef)');
   });
 
   QUnit.test('serializers/application.js', function (assert) {
@@ -6031,12 +6036,17 @@ define('client/tests/lint/templates.template.lint-test', [], function () {
 
   QUnit.test('client/templates/components/todo-item.hbs', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'client/templates/components/todo-item.hbs should pass TemplateLint.\n\nclient/templates/components/todo-item.hbs\n  14:9  error  Incorrect indentation for `<i>` beginning at L14:C9. Expected `<i>` to be at an indentation of 6 but was found at 9.  block-indentation\n');
+    assert.ok(true, 'client/templates/components/todo-item.hbs should pass TemplateLint.\n\n');
   });
 
   QUnit.test('client/templates/components/todo-list.hbs', function (assert) {
     assert.expect(1);
     assert.ok(true, 'client/templates/components/todo-list.hbs should pass TemplateLint.\n\n');
+  });
+
+  QUnit.test('client/templates/components/user-list.hbs', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'client/templates/components/user-list.hbs should pass TemplateLint.\n\n');
   });
 
   QUnit.test('client/templates/index.hbs', function (assert) {

@@ -19,6 +19,7 @@
     value: true
   });
 
+
   const App = Ember.Application.extend({
     modulePrefix: _environment.default.modulePrefix,
     podModulePrefix: _environment.default.podModulePrefix,
@@ -1028,10 +1029,6 @@
     initialize: initialize
   };
 });
-
-//=============================================================================================================================================
-
-
 ;define('client/instance-initializers/ember-data', ['exports', 'ember-data/initialize-store-service'], function (exports, _initializeStoreService) {
   'use strict';
 
@@ -1043,8 +1040,6 @@
     initialize: _initializeStoreService.default
   };
 });
-
-
 ;define('client/models/task', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
 
@@ -1053,8 +1048,20 @@
   });
   exports.default = _emberData.default.Model.extend({
     title: _emberData.default.attr('string'),
-    done: _emberData.default.attr('boolean', { defaultValue: false })
+    done: _emberData.default.attr('boolean', { defaultValue: false }),
+    users: _emberData.default.hasMany('user', { async: true })
   });
+});
+;define('client/models/user', ['exports', 'ember-data'], function (exports, _emberData) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = _emberData.default.Model.extend({
+        name: _emberData.default.attr('string'),
+        tasks: _emberData.default.hasMany('task', { async: true })
+    });
 });
 ;define('client/resolver', ['exports', 'ember-resolver'], function (exports, _emberResolver) {
   'use strict';
@@ -1131,6 +1138,62 @@
       });
     }
   });
+
+
+  // export default Ember.Route.extend({
+  //   model() {
+  //     return Ember.RSVP.hash({
+  //       tasks : this.store.findAll('task',1),
+  //       users : this.store.findAll('user')
+  //     });
+  //   },
+  // });
+
+  //=====================================================================================
+
+
+  const UserData = Ember.Object.extend({
+    users: null,
+
+    total: Ember.computed('users.[]', 'users.@each.{isDeleted,done}', function () {
+      let users = this.get('users');
+      let cc = 0;
+      users.forEach(function (vv) {
+        if (!vv.isDeleted) {
+          cc++;
+        }
+      });
+      return cc;
+    }),
+    done: Ember.computed('users.[]', 'users.@each.{isDeleted,done}', function () {
+      let users = this.get('users');
+      let cc = 0;
+      users.forEach(function (vv) {
+        if (vv.name && !vv.isDeleted) {
+          cc++;
+        }
+      });
+      return cc;
+    }),
+    todo: Ember.computed('users.[]', 'users.@each.{isDeleted,done}', function () {
+      let tasks = this.get('users');
+      let cc = 0;
+      users.forEach(function (vv) {
+        if (!vv.name && !vv.isDeleted) {
+          cc++;
+        }
+      });
+      return cc;
+    })
+  });
+
+  // export default Route.extend({
+  //   model() {
+  //     return UserData.create({
+  //       users : this.store.findAll('user')
+  //     });
+  //   },
+  // })
 });
 ;define('client/serializers/application', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
@@ -1169,7 +1232,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "A6VmwQAJ", "block": "{\"symbols\":[\"&default\"],\"statements\":[[7,\"div\"],[12,\"class\",[28,[\"task \",[27,\"if\",[[23,[\"task\",\"done\"]],\"done\",\"todo\"],null]]]],[9],[0,\"\\n  \"],[7,\"span\"],[12,\"class\",[28,[\"task-mark \",[27,\"if\",[[23,[\"task\",\"done\"]],\"mark-done\",\"mark-todo\"],null]]]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"toggle\"],null]],[9],[10],[0,\"\\n  \"],[7,\"span\"],[11,\"class\",\"task-title\"],[9],[0,\"\\n    \"],[7,\"span\"],[11,\"class\",\"index\"],[9],[1,[27,\"add\",[[23,[\"index\"]],1],null],false],[0,\".\"],[10],[0,\"\\n\"],[4,\"if\",[[23,[\"editTitle\"]]],null,{\"statements\":[[0,\"      \"],[7,\"input\"],[11,\"class\",\"title\"],[12,\"value\",[23,[\"task\",\"title\"]]],[12,\"onkeydown\",[27,\"action\",[[22,0,[]],\"editTitleDone\"],null]],[9],[10],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[7,\"span\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"editTitle\"],null]],[9],[1,[23,[\"task\",\"title\"]],false],[10],[0,\"\\n\"]],\"parameters\":[]}],[0,\"  \"],[10],[0,\"\\n\\n  \"],[7,\"span\"],[11,\"class\",\"share_user_task\"],[12,\"id\",[28,[\"share_task_\",[23,[\"task\",\"id\"]]]]],[9],[0,\"\\n    \"],[7,\"button\"],[11,\"class\",\"btn btn-primary\"],[11,\"data-toggle\",\"modal\"],[11,\"data-target\",\"#exampleModal\"],[11,\"type\",\"button\"],[9],[0,\"\\n         \"],[7,\"i\"],[11,\"class\",\"fa fa-user\"],[9],[10],[0,\"\\n    \"],[10],[0,\"\\n  \"],[10],[0,\"\\n\\n  \"],[7,\"span\"],[11,\"class\",\"task-del\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"deleteTask\"],null]],[9],[0,\"X\"],[10],[0,\"\\n\"],[10],[0,\"\\n\"],[14,1]],\"hasEval\":false}", "meta": { "moduleName": "client/templates/components/todo-item.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "KOrIb9XA", "block": "{\"symbols\":[\"&default\"],\"statements\":[[7,\"div\"],[12,\"class\",[28,[\"task \",[27,\"if\",[[23,[\"task\",\"done\"]],\"done\",\"todo\"],null]]]],[9],[0,\"\\n  \"],[7,\"span\"],[12,\"class\",[28,[\"task-mark \",[27,\"if\",[[23,[\"task\",\"done\"]],\"mark-done\",\"mark-todo\"],null]]]],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"toggle\"],null]],[9],[10],[0,\"\\n  \"],[7,\"span\"],[11,\"class\",\"task-title\"],[9],[0,\"\\n    \"],[7,\"span\"],[11,\"class\",\"index\"],[9],[1,[27,\"add\",[[23,[\"index\"]],1],null],false],[0,\".\"],[10],[0,\"\\n\"],[4,\"if\",[[23,[\"editTitle\"]]],null,{\"statements\":[[0,\"      \"],[7,\"input\"],[11,\"class\",\"title\"],[12,\"value\",[23,[\"task\",\"title\"]]],[12,\"onkeydown\",[27,\"action\",[[22,0,[]],\"editTitleDone\"],null]],[9],[10],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[7,\"span\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"editTitle\"],null]],[9],[1,[23,[\"task\",\"title\"]],false],[10],[0,\"\\n\"]],\"parameters\":[]}],[0,\"  \"],[10],[0,\"\\n\\n  \"],[7,\"span\"],[11,\"class\",\"share_user_task\"],[12,\"id\",[28,[\"share_task_\",[23,[\"task\",\"id\"]]]]],[9],[0,\"\\n    \"],[7,\"button\"],[11,\"class\",\"btn btn-primary\"],[11,\"data-toggle\",\"modal\"],[11,\"data-target\",\"#exampleModal\"],[11,\"type\",\"button\"],[9],[0,\"\\n      \"],[7,\"i\"],[11,\"class\",\"fa fa-user\"],[9],[10],[0,\"\\n    \"],[10],[0,\"\\n  \"],[10],[0,\"\\n\\n  \"],[7,\"span\"],[11,\"class\",\"task-del\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"deleteTask\"],null]],[9],[0,\"X\"],[10],[0,\"\\n\"],[10],[0,\"\\n\"],[14,1],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "client/templates/components/todo-item.hbs" } });
 });
 ;define("client/templates/components/todo-list", ["exports"], function (exports) {
   "use strict";
@@ -1177,7 +1240,15 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "CC1w/0Nn", "block": "{\"symbols\":[\"task\",\"index\",\"&default\"],\"statements\":[[7,\"div\"],[11,\"class\",\"tasks\"],[9],[0,\"\\n  \"],[7,\"header\"],[9],[0,\"\\n    \"],[7,\"span\"],[11,\"class\",\"title\"],[9],[0,\"משימות\"],[10],[0,\"\\n    \"],[7,\"button\"],[11,\"class\",\"task-add\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"newTaskDisplay\"],null]],[9],[0,\"\\n      \"],[7,\"span\"],[11,\"class\",\"plus\"],[9],[10],[0,\"\\n    \"],[10],[0,\"\\n\\n  \"],[10],[0,\"\\n\"],[4,\"if\",[[23,[\"displayNewTask\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"add\"],[9],[0,\"\\n      \"],[7,\"label\"],[9],[0,\"משימה חדשה\"],[10],[0,\"\\n      \"],[7,\"input\"],[11,\"class\",\"title\"],[9],[10],[0,\"\\n      \"],[7,\"button\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"newTaskAdd\"],null]],[9],[0,\"הוסף\"],[10],[0,\"\\n      \"],[7,\"button\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"newTaskCancel\"],null]],[9],[0,\"בטל\"],[10],[0,\"\\n\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n  \"],[7,\"div\"],[11,\"class\",\"list\"],[9],[0,\"\\n\"],[4,\"each\",[[23,[\"model\",\"tasks\"]]],null,{\"statements\":[[4,\"unless\",[[22,1,[\"isDeleted\"]]],null,{\"statements\":[[0,\"        \"],[1,[27,\"todo-item\",null,[[\"task\",\"index\",\"editTitle\",\"tasks\"],[[22,1,[]],[22,2,[]],false,[23,[\"model\",\"tasks\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[1,2]},null],[0,\"  \"],[10],[0,\"\\n\\n\\n  \"],[7,\"footer\"],[9],[0,\"\\n    \"],[7,\"span\"],[9],[0,\"לסיום : \"],[1,[23,[\"model\",\"todo\"]],false],[0,\" \"],[10],[0,\"\\n    \"],[7,\"span\"],[9],[0,\"הושלמו : \"],[1,[23,[\"model\",\"done\"]],false],[0,\" \"],[10],[0,\"\\n    \"],[7,\"span\"],[9],[0,\"סה\\\"כ : \"],[1,[23,[\"model\",\"total\"]],false],[0,\" \"],[10],[0,\"\\n\\n  \"],[10],[0,\"\\n\"],[10],[0,\"\\n\"],[14,3]],\"hasEval\":false}", "meta": { "moduleName": "client/templates/components/todo-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Ba0SEJnW", "block": "{\"symbols\":[\"task\",\"index\",\"&default\"],\"statements\":[[7,\"div\"],[11,\"class\",\"tasks\"],[9],[0,\"\\n  \"],[7,\"header\"],[9],[0,\"\\n    \"],[7,\"span\"],[11,\"class\",\"title\"],[9],[0,\"משימות\"],[10],[0,\"\\n    \"],[7,\"button\"],[11,\"class\",\"task-add\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"newTaskDisplay\"],null]],[9],[0,\"\\n      \"],[7,\"span\"],[11,\"class\",\"plus\"],[9],[10],[0,\"\\n    \"],[10],[0,\"\\n\\n  \"],[10],[0,\"\\n\"],[4,\"if\",[[23,[\"displayNewTask\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"add\"],[9],[0,\"\\n      \"],[7,\"label\"],[9],[0,\"משימה חדשה\"],[10],[0,\"\\n      \"],[7,\"input\"],[11,\"class\",\"title\"],[9],[10],[0,\"\\n      \"],[7,\"button\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"newTaskAdd\"],null]],[9],[0,\"הוסף\"],[10],[0,\"\\n      \"],[7,\"button\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"newTaskCancel\"],null]],[9],[0,\"בטל\"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n  \"],[7,\"div\"],[11,\"class\",\"list\"],[9],[0,\"\\n\"],[4,\"each\",[[23,[\"model\",\"tasks\"]]],null,{\"statements\":[[4,\"unless\",[[22,1,[\"isDeleted\"]]],null,{\"statements\":[[0,\"        \"],[1,[27,\"todo-item\",null,[[\"task\",\"index\",\"editTitle\",\"tasks\"],[[22,1,[]],[22,2,[]],false,[23,[\"model\",\"tasks\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[1,2]},null],[0,\"  \"],[10],[0,\"\\n\\n\\n  \"],[7,\"footer\"],[9],[0,\"\\n    \"],[7,\"span\"],[9],[0,\"לסיום : \"],[1,[23,[\"model\",\"todo\"]],false],[0,\" \"],[10],[0,\"\\n    \"],[7,\"span\"],[9],[0,\"הושלמו : \"],[1,[23,[\"model\",\"done\"]],false],[0,\" \"],[10],[0,\"\\n    \"],[7,\"span\"],[9],[0,\"סה\\\"כ : \"],[1,[23,[\"model\",\"total\"]],false],[0,\" \"],[10],[0,\"\\n\\n  \"],[10],[0,\"\\n\"],[10],[0,\"\\n\"],[14,3],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "client/templates/components/todo-list.hbs" } });
+});
+;define("client/templates/components/user-list", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "ZiyndDnO", "block": "{\"symbols\":[],\"statements\":[],\"hasEval\":false}", "meta": { "moduleName": "client/templates/components/user-list.hbs" } });
 });
 ;define("client/templates/index", ["exports"], function (exports) {
   "use strict";
@@ -1185,7 +1256,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "MFjQXaz9", "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[1,[27,\"todo-list\",null,[[\"model\"],[[23,[\"model\"]]]]],false],[0,\"\\n\"],[1,[21,\"outlet\"],false]],\"hasEval\":false}", "meta": { "moduleName": "client/templates/index.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "uPCDH2kp", "block": "{\"symbols\":[\"user\",\"task\",\"task\",\"user\"],\"statements\":[[1,[27,\"user-list\",null,[[\"model\"],[[23,[\"model\"]]]]],false],[0,\"\\n\"],[1,[27,\"todo-list\",null,[[\"model\"],[[23,[\"model\"]]]]],false],[0,\"\\n\"],[1,[21,\"outlet\"],false],[0,\"\\n\\n\"],[1,[27,\"todo-list\",null,[[\"model\"],[[23,[\"model\"]]]]],false],[0,\"\\n\"],[1,[27,\"user-list\",null,[[\"model\"],[[23,[\"model\"]]]]],false],[0,\"\\n\"],[1,[21,\"outlet\"],false],[0,\"\\n\"],[7,\"h2\"],[9],[0,\"Tasksssssssssssssssssssss\"],[10],[0,\"\\n\"],[4,\"each\",[[23,[\"model\",\"tasks\"]]],null,{\"statements\":[[0,\"  \"],[7,\"h3\"],[9],[1,[22,3,[\"title\"]],false],[10],[0,\"\\n\"],[4,\"each\",[[22,3,[\"users\"]]],null,{\"statements\":[[0,\"    \"],[7,\"p\"],[9],[1,[22,4,[\"name\"]],false],[10],[0,\"\\n\"]],\"parameters\":[4]},null]],\"parameters\":[3]},null],[0,\"\\n\\n\\n\\n\"],[7,\"h3\"],[9],[0,\"userssssssssssssssssssssssssssssss\"],[10],[0,\"\\n\"],[4,\"each\",[[23,[\"model\",\"users\"]]],null,{\"statements\":[[0,\"  \"],[7,\"h3\"],[9],[1,[22,1,[\"name\"]],false],[10],[0,\"\\n\"],[4,\"each\",[[22,1,[\"tasks\"]]],null,{\"statements\":[[0,\"    \"],[7,\"p\"],[9],[1,[22,2,[\"name\"]],false],[10],[0,\"\\n\"]],\"parameters\":[2]},null]],\"parameters\":[1]},null]],\"hasEval\":false}", "meta": { "moduleName": "client/templates/index.hbs" } });
 });
 ;
 
@@ -1210,7 +1281,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("client/app")["default"].create({"name":"client","version":"0.0.0+0f1083a9"});
+            require("client/app")["default"].create({"name":"client","version":"0.0.0+943b1996"});
           }
-
+        
 //# sourceMappingURL=client.map

@@ -87,6 +87,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //});
 
 
+Route::get('users', function() {
+    // If the Content-Type and Accept headers are set to 'application/json',
+    // this will return a JSON structure. This will be cleaned up later.
+    return User::all();
+});
+
+Route::post('users', function(Request $request) {
+    $user = User::create($request->all());
+    return $user;
+});
+
+//====================================================================================
+
+
 Route::get('tasks', function() {
     // If the Content-Type and Accept headers are set to 'application/json',
     // this will return a JSON structure. This will be cleaned up later.
