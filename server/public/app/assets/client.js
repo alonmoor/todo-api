@@ -107,6 +107,32 @@
     }
   });
 });
+;define('client/components/user-list', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.Component.extend({
+    store: Ember.inject.service(),
+    displayNewUser: false,
+
+    actions: {
+      newUserDisplay(_event) {
+        this.set('displayNewUser', true);
+      },
+      newUserDisplay(_event) {
+        this.set('displayNewUser', false);
+      },
+      newUserDisplay(_event) {
+        let name = this.$('input.name').val();
+        let user = this.get('store').createRecord('user', { name: name });
+        task.save();
+        this.set('displayNewUser', false);
+      }
+    }
+  });
+});
 ;define('client/components/welcome-page', ['exports', 'ember-welcome-page/components/welcome-page'], function (exports, _welcomePage) {
   'use strict';
 
@@ -1049,7 +1075,7 @@
   exports.default = _emberData.default.Model.extend({
     title: _emberData.default.attr('string'),
     done: _emberData.default.attr('boolean', { defaultValue: false }),
-    users: _emberData.default.hasMany('user', { async: true })
+    users: _emberData.default.hasMany()
   });
 });
 ;define('client/models/user', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -1060,7 +1086,8 @@
     });
     exports.default = _emberData.default.Model.extend({
         name: _emberData.default.attr('string'),
-        tasks: _emberData.default.hasMany('task', { async: true })
+        tasks: _emberData.default.hasMany()
+        //children: DS.hasMany('child')
     });
 });
 ;define('client/resolver', ['exports', 'ember-resolver'], function (exports, _emberResolver) {
@@ -1096,6 +1123,16 @@
   });
 
 
+  // export default Ember.Route.extend({
+  //   model() {
+  //     return Ember.RSVP.hash({
+  //       users: this.get('store').findAll('user', 1),
+  //       tasks: this.get('store').findAll('tasks'),
+  //     });
+  //   },
+  // });
+
+
   const TaskData = Ember.Object.extend({
     tasks: null,
 
@@ -1111,6 +1148,7 @@
     }),
     done: Ember.computed('tasks.[]', 'tasks.@each.{isDeleted,done}', function () {
       let tasks = this.get('tasks');
+
       let cc = 0;
       tasks.forEach(function (vv) {
         if (vv.done && !vv.isDeleted) {
@@ -1131,23 +1169,35 @@
     })
   });
 
-  exports.default = Ember.Route.extend({
-    model() {
-      return TaskData.create({
-        tasks: this.store.findAll('task')
-      });
-    }
-  });
-
-
-  // export default Ember.Route.extend({
+  // export default Route.extend({
   //   model() {
-  //     return Ember.RSVP.hash({
-  //       tasks : this.store.findAll('task',1),
-  //       users : this.store.findAll('user')
+  //     return TaskData.create({
+  //       tasks : this.store.findAll('task')
   //     });
   //   },
-  // });
+  // })
+  //
+  //
+  //
+  //
+  // filteredOwners: Ember.computed('userName', 'model.@each.users.[]', function() {
+  //   let userName = this.get('userName');
+  //
+  //   return DS.PromiseArray.create({
+  //     promise: Ember.RSVP.filter(this.get('model').toArray(), owner => {
+  //       return owner.get('users').then( pets => {
+  //         return pets.isAny('name', userName);
+  //       });
+  //     })
+  //   });
+  // })
+
+  // export default Route.extend({
+  //   model() {
+  //       this.get('store').findAll('user');
+  //   },
+  // })
+
 
   //=====================================================================================
 
@@ -1155,7 +1205,7 @@
   const UserData = Ember.Object.extend({
     users: null,
 
-    total: Ember.computed('users.[]', 'users.@each.{isDeleted,done}', function () {
+    total: Ember.computed('users.[]', 'users.@each.{isDeleted,name}', function () {
       let users = this.get('users');
       let cc = 0;
       users.forEach(function (vv) {
@@ -1165,8 +1215,10 @@
       });
       return cc;
     }),
-    done: Ember.computed('users.[]', 'users.@each.{isDeleted,done}', function () {
+    name: Ember.computed('users.[]', 'users.@each.{isDeleted,name}', function () {
+
       let users = this.get('users');
+
       let cc = 0;
       users.forEach(function (vv) {
         if (vv.name && !vv.isDeleted) {
@@ -1174,26 +1226,18 @@
         }
       });
       return cc;
-    }),
-    todo: Ember.computed('users.[]', 'users.@each.{isDeleted,done}', function () {
-      let tasks = this.get('users');
-      let cc = 0;
-      users.forEach(function (vv) {
-        if (!vv.name && !vv.isDeleted) {
-          cc++;
-        }
-      });
-      return cc;
     })
+
   });
 
-  // export default Route.extend({
-  //   model() {
-  //     return UserData.create({
-  //       users : this.store.findAll('user')
-  //     });
-  //   },
-  // })
+  exports.default = Ember.Route.extend({
+    model() {
+      return Ember.RSVP.hash({
+        tasks: this.get('store').findAll('task', 1),
+        users: this.get('store').findAll('user')
+      });
+    }
+  });
 });
 ;define('client/serializers/application', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
@@ -1240,7 +1284,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "Ba0SEJnW", "block": "{\"symbols\":[\"task\",\"index\",\"&default\"],\"statements\":[[7,\"div\"],[11,\"class\",\"tasks\"],[9],[0,\"\\n  \"],[7,\"header\"],[9],[0,\"\\n    \"],[7,\"span\"],[11,\"class\",\"title\"],[9],[0,\"משימות\"],[10],[0,\"\\n    \"],[7,\"button\"],[11,\"class\",\"task-add\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"newTaskDisplay\"],null]],[9],[0,\"\\n      \"],[7,\"span\"],[11,\"class\",\"plus\"],[9],[10],[0,\"\\n    \"],[10],[0,\"\\n\\n  \"],[10],[0,\"\\n\"],[4,\"if\",[[23,[\"displayNewTask\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"add\"],[9],[0,\"\\n      \"],[7,\"label\"],[9],[0,\"משימה חדשה\"],[10],[0,\"\\n      \"],[7,\"input\"],[11,\"class\",\"title\"],[9],[10],[0,\"\\n      \"],[7,\"button\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"newTaskAdd\"],null]],[9],[0,\"הוסף\"],[10],[0,\"\\n      \"],[7,\"button\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"newTaskCancel\"],null]],[9],[0,\"בטל\"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n  \"],[7,\"div\"],[11,\"class\",\"list\"],[9],[0,\"\\n\"],[4,\"each\",[[23,[\"model\",\"tasks\"]]],null,{\"statements\":[[4,\"unless\",[[22,1,[\"isDeleted\"]]],null,{\"statements\":[[0,\"        \"],[1,[27,\"todo-item\",null,[[\"task\",\"index\",\"editTitle\",\"tasks\"],[[22,1,[]],[22,2,[]],false,[23,[\"model\",\"tasks\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[1,2]},null],[0,\"  \"],[10],[0,\"\\n\\n\\n  \"],[7,\"footer\"],[9],[0,\"\\n    \"],[7,\"span\"],[9],[0,\"לסיום : \"],[1,[23,[\"model\",\"todo\"]],false],[0,\" \"],[10],[0,\"\\n    \"],[7,\"span\"],[9],[0,\"הושלמו : \"],[1,[23,[\"model\",\"done\"]],false],[0,\" \"],[10],[0,\"\\n    \"],[7,\"span\"],[9],[0,\"סה\\\"כ : \"],[1,[23,[\"model\",\"total\"]],false],[0,\" \"],[10],[0,\"\\n\\n  \"],[10],[0,\"\\n\"],[10],[0,\"\\n\"],[14,3],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "client/templates/components/todo-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "lOjJCyIa", "block": "{\"symbols\":[\"task\",\"index\",\"&default\"],\"statements\":[[7,\"div\"],[11,\"class\",\"tasks\"],[9],[0,\"\\n  \"],[7,\"header\"],[9],[0,\"\\n    \"],[7,\"span\"],[11,\"class\",\"title\"],[9],[0,\"משימות\"],[10],[0,\"\\n    \"],[7,\"button\"],[11,\"class\",\"task-add\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"newTaskDisplay\"],null]],[9],[0,\"\\n      \"],[7,\"span\"],[11,\"class\",\"plus\"],[9],[10],[0,\"\\n    \"],[10],[0,\"\\n\\n  \"],[10],[0,\"\\n\"],[4,\"if\",[[23,[\"displayNewTask\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\"],[11,\"class\",\"add\"],[9],[0,\"\\n      \"],[7,\"label\"],[9],[0,\"משימה חדשה\"],[10],[0,\"\\n      \"],[7,\"input\"],[11,\"class\",\"title\"],[9],[10],[0,\"\\n      \"],[7,\"button\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"newTaskAdd\"],null]],[9],[0,\"הוסף\"],[10],[0,\"\\n      \"],[7,\"button\"],[12,\"onclick\",[27,\"action\",[[22,0,[]],\"newTaskCancel\"],null]],[9],[0,\"בטל\"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n  \"],[7,\"div\"],[11,\"class\",\"list\"],[9],[0,\"\\n\"],[4,\"each\",[[23,[\"model\",\"tasks\"]]],null,{\"statements\":[[4,\"unless\",[[22,1,[\"isDeleted\"]]],null,{\"statements\":[[0,\"        \"],[1,[27,\"todo-item\",null,[[\"task\",\"index\",\"editTitle\",\"tasks\"],[[22,1,[]],[22,2,[]],false,[23,[\"model\",\"tasks\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[1,2]},null],[0,\"  \"],[10],[0,\"\\n\\n\\n  \"],[7,\"footer\"],[9],[0,\"\\n    \"],[7,\"span\"],[9],[0,\":לסיום\"],[1,[23,[\"model\",\"todo\"]],false],[0,\" \"],[10],[0,\"\\n    \"],[7,\"span\"],[9],[0,\":הושלמו\"],[1,[23,[\"model\",\"done\"]],false],[0,\" \"],[10],[0,\"\\n    \"],[7,\"span\"],[9],[0,\":סה\\\"כ\"],[1,[23,[\"model\",\"total\"]],false],[0,\" \"],[10],[0,\"\\n\\n  \"],[10],[0,\"\\n\"],[10],[0,\"\\n\"],[14,3],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "client/templates/components/todo-list.hbs" } });
 });
 ;define("client/templates/components/user-list", ["exports"], function (exports) {
   "use strict";
@@ -1248,7 +1292,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "ZiyndDnO", "block": "{\"symbols\":[],\"statements\":[],\"hasEval\":false}", "meta": { "moduleName": "client/templates/components/user-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "QZiRh8s/", "block": "{\"symbols\":[],\"statements\":[[2,\" <div class=\\\"tass\\\">\\n  <header>\\n    <span class=\\\"title\\\">משתמשים</span>\\n    <button class=\\\"User-add\\\" onclick={{action \\\"newUserDisplay\\\"}}>\\n      <span class=\\\"plus\\\"/>\\n    </button>\\n\\n  </header>\\n{{#if displayNewUser}}\\n    <div class=\\\"add\\\">\\n    <label>  משתמש חדש</label>\\n      <input class=\\\"title\\\"/>\\n      <button onclick={{action \\\"newUserAdd\\\"}}>הוסף</button>\\n      <button onclick={{action \\\"newUserCancel\\\"}}>בטל</button>\\n    </div>\\n  {{/if}}\\n  <div class=\\\"list\\\">\\n{{#each model.users as |user index|}}\\n\\n    {{user.name}}\\n    {{/each}}  </div>\\n\\n\\n\\n\\n\\n  <footer>\\n\\n    <span>סה\\\"כ : {{ model.total }} </span>\\n\\n  </footer>\\n</div>\\n{{yield}} \"],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "client/templates/components/user-list.hbs" } });
 });
 ;define("client/templates/index", ["exports"], function (exports) {
   "use strict";
@@ -1256,7 +1300,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "uPCDH2kp", "block": "{\"symbols\":[\"user\",\"task\",\"task\",\"user\"],\"statements\":[[1,[27,\"user-list\",null,[[\"model\"],[[23,[\"model\"]]]]],false],[0,\"\\n\"],[1,[27,\"todo-list\",null,[[\"model\"],[[23,[\"model\"]]]]],false],[0,\"\\n\"],[1,[21,\"outlet\"],false],[0,\"\\n\\n\"],[1,[27,\"todo-list\",null,[[\"model\"],[[23,[\"model\"]]]]],false],[0,\"\\n\"],[1,[27,\"user-list\",null,[[\"model\"],[[23,[\"model\"]]]]],false],[0,\"\\n\"],[1,[21,\"outlet\"],false],[0,\"\\n\"],[7,\"h2\"],[9],[0,\"Tasksssssssssssssssssssss\"],[10],[0,\"\\n\"],[4,\"each\",[[23,[\"model\",\"tasks\"]]],null,{\"statements\":[[0,\"  \"],[7,\"h3\"],[9],[1,[22,3,[\"title\"]],false],[10],[0,\"\\n\"],[4,\"each\",[[22,3,[\"users\"]]],null,{\"statements\":[[0,\"    \"],[7,\"p\"],[9],[1,[22,4,[\"name\"]],false],[10],[0,\"\\n\"]],\"parameters\":[4]},null]],\"parameters\":[3]},null],[0,\"\\n\\n\\n\\n\"],[7,\"h3\"],[9],[0,\"userssssssssssssssssssssssssssssss\"],[10],[0,\"\\n\"],[4,\"each\",[[23,[\"model\",\"users\"]]],null,{\"statements\":[[0,\"  \"],[7,\"h3\"],[9],[1,[22,1,[\"name\"]],false],[10],[0,\"\\n\"],[4,\"each\",[[22,1,[\"tasks\"]]],null,{\"statements\":[[0,\"    \"],[7,\"p\"],[9],[1,[22,2,[\"name\"]],false],[10],[0,\"\\n\"]],\"parameters\":[2]},null]],\"parameters\":[1]},null]],\"hasEval\":false}", "meta": { "moduleName": "client/templates/index.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "MFCwCy9c", "block": "{\"symbols\":[\"user\",\"task\",\"task\",\"user\",\"task\"],\"statements\":[[1,[27,\"todo-list\",null,[[\"model\"],[[23,[\"model\"]]]]],false],[0,\"\\n\\n\\n \"],[7,\"h2\"],[9],[0,\"Tasksssssssssssssssssssss\"],[10],[0,\"\\n\"],[7,\"ul\"],[9],[0,\"\\n\"],[4,\"each\",[[23,[\"model\"]]],null,{\"statements\":[[0,\"  \"],[7,\"li\"],[9],[1,[22,5,[\"title\"]],false],[10],[0,\"\\n\"]],\"parameters\":[5]},null],[10],[0,\"\\n\\n\\n\\n\"],[7,\"h2\"],[9],[0,\"Tasks with Users\"],[10],[0,\"\\n\"],[4,\"each\",[[23,[\"model\",\"tasks\"]]],null,{\"statements\":[[0,\"  \"],[7,\"h3\"],[9],[1,[22,3,[\"title\"]],false],[10],[0,\"\\n\"],[4,\"each\",[[22,3,[\"users\"]]],null,{\"statements\":[[0,\"    \"],[7,\"p\"],[9],[1,[22,4,[\"name\"]],false],[10],[0,\"\\n\"]],\"parameters\":[4]},null]],\"parameters\":[3]},null],[0,\"\\n\"],[7,\"h2\"],[9],[0,\"Users with Tasks\"],[10],[0,\"\\n\"],[4,\"each\",[[23,[\"model\",\"users\"]]],null,{\"statements\":[[0,\"  \"],[7,\"h3\"],[9],[1,[22,1,[\"name\"]],false],[10],[0,\"\\n\"],[4,\"each\",[[22,1,[\"tasks\"]]],null,{\"statements\":[[0,\"    \"],[7,\"p\"],[9],[1,[22,2,[\"title\"]],false],[10],[0,\"\\n\"]],\"parameters\":[2]},null]],\"parameters\":[1]},null],[0,\"\\n\\n\\n\"],[1,[21,\"outlet\"],false],[0,\"\\n\\n\\n\\n\\n\\n\"],[2,\"\\n\\n<h3>userssssssssssssssssssssssssssssss</h3>\\n{{#each model.users as |user|}}\\n  <h3>{{user.name}}</h3>\\n  {{#each user.tasks as |task|}}\\n    <p>{{task.name}}</p>\\n  {{/each}}\\n{{/each}} \"],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "client/templates/index.hbs" } });
 });
 ;
 
@@ -1281,7 +1325,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("client/app")["default"].create({"name":"client","version":"0.0.0+943b1996"});
+            require("client/app")["default"].create({"name":"client","version":"0.0.0+cc5ffd67"});
           }
         
 //# sourceMappingURL=client.map

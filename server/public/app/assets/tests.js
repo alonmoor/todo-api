@@ -5986,12 +5986,17 @@ define('client/tests/lint/app.lint-test', [], function () {
 
   QUnit.test('components/todo-item.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'components/todo-item.js should pass ESLint\n\n5:10 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)');
+    assert.ok(false, 'components/todo-item.js should pass ESLint\n\n4:20 - \'service\' is defined but never used. (no-unused-vars)\n7:10 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)');
   });
 
   QUnit.test('components/todo-list.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'components/todo-list.js should pass ESLint\n\n5:10 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)');
+    assert.ok(false, 'components/todo-list.js should pass ESLint\n\n3:20 - \'service\' is defined but never used. (no-unused-vars)\n4:8 - \'Service\' is defined but never used. (no-unused-vars)\n7:10 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)');
+  });
+
+  QUnit.test('components/user-list.js', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'components/user-list.js should pass ESLint\n\n3:20 - \'service\' is defined but never used. (no-unused-vars)\n4:8 - \'Service\' is defined but never used. (no-unused-vars)\n7:10 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)\n14:5 - Duplicate key \'newUserDisplay\'. (no-dupe-keys)\n17:5 - Duplicate key \'newUserDisplay\'. (no-dupe-keys)\n19:11 - \'user\' is assigned a value but never used. (no-unused-vars)\n20:7 - \'task\' is not defined. (no-undef)');
   });
 
   QUnit.test('models/task.js', function (assert) {
@@ -6011,12 +6016,12 @@ define('client/tests/lint/app.lint-test', [], function () {
 
   QUnit.test('router.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'router.js should pass ESLint\n\n');
+    assert.ok(true, 'router.js should pass ESLint\n\n1:8 - \'Ember\' is defined but never used. (no-unused-vars)');
   });
 
   QUnit.test('routes/index.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'routes/index.js should pass ESLint\n\n64:7 - \'UserData\' is assigned a value but never used. (no-unused-vars)\n88:13 - \'tasks\' is assigned a value but never used. (no-unused-vars)\n90:9 - \'users\' is not defined. (no-undef)');
+    assert.ok(false, 'routes/index.js should pass ESLint\n\n2:8 - \'Route\' is defined but never used. (no-unused-vars)\n4:10 - \'all\' is defined but never used. (no-unused-vars)\n20:7 - \'TaskData\' is assigned a value but never used. (no-unused-vars)\n100:7 - \'UserData\' is assigned a value but never used. (no-unused-vars)\n129:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n131:12 - Use import { hash } from \'rsvp\'; instead of using Ember.RSVP.hash (ember/new-module-imports)');
   });
 
   QUnit.test('serializers/application.js', function (assert) {
@@ -6046,12 +6051,12 @@ define('client/tests/lint/templates.template.lint-test', [], function () {
 
   QUnit.test('client/templates/components/user-list.hbs', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'client/templates/components/user-list.hbs should pass TemplateLint.\n\n');
+    assert.ok(false, 'client/templates/components/user-list.hbs should pass TemplateLint.\n\nclient/templates/components/user-list.hbs\n  1:0  error  HTML comment detected  no-html-comments\n');
   });
 
   QUnit.test('client/templates/index.hbs', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'client/templates/index.hbs should pass TemplateLint.\n\n');
+    assert.ok(false, 'client/templates/index.hbs should pass TemplateLint.\n\nclient/templates/index.hbs\n  6:0  error  Incorrect indentation for `{{#each}}` beginning at L6:C0. Expected `{{#each}}` to be at an indentation of 2 but was found at 0.  block-indentation\n  8:11  error  Incorrect indentation for `each` beginning at L6:C0. Expected `{{/each}}` ending at L8:C11 to be at an indentation of 0 but was found at 2.  block-indentation\n  37:0  error  HTML comment detected  no-html-comments\n');
   });
 });
 define('client/tests/lint/tests.lint-test', [], function () {

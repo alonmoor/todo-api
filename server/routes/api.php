@@ -66,10 +66,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-//
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+   return $request->user();
+});
+
 //Route::get('/tasks', [\App\Http\Controllers\CompanyController::class, 'index']);
 //Route::get('/companies/{company}', [\App\Http\Controllers\CompanyController::class, 'show']);
 //Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
@@ -85,6 +85,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 ////    $id = Auth::user()->id;
 ////    return TaskUser::find($id);
 //});
+
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 
 Route::get('users', function() {
