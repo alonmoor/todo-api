@@ -56,4 +56,39 @@
 </table>
 
 
+
+
+
+
+<thead>
+<tr>
+    <th>Users</th>
+    <th>Tasks</th>
+</tr>
+</thead>
+
+<tbody>
+@foreach ($task->users as $user)
+
+    <tr>
+
+        <td>{{ $user->name }}</td>
+
+        <td>
+            <ul>
+                @foreach ($tasks as $task)
+
+
+                    <li>{{ task->title }}</li>
+
+                @endforeach
+            </ul>
+
+        </td>
+    </tr>
+@endforeach
+</tbody>
+</table>
+
+
 @endsection

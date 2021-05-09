@@ -43,9 +43,7 @@
             <td>
                 <ul>
                     @foreach ($task->users as $user)
-
                         <li>{{ $user->name }}</li>
-
                     @endforeach
                 </ul>
 
@@ -55,5 +53,33 @@
     </tbody>
 </table>
 
+
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+        <th>Users</th>
+        <th>Tasks</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    @foreach ( \App\Models\User::with('tasks')->get()  as $user)
+        <tr>
+            <td>{{ $user->name }}</td>
+            <td>
+                <ul>
+
+                    @foreach ($user->tasks as $task)
+                        <li>{{ $task->title }}</li>
+                    @endforeach
+
+                </ul>
+
+            </td>
+        </tr>
+  @endforeach
+  </tbody>
+</table>
 
 @endsection

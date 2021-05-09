@@ -5981,7 +5981,7 @@ define('client/tests/lint/app.lint-test', [], function () {
 
   QUnit.test('app.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'app.js should pass ESLint\n\n');
+    assert.ok(false, 'app.js should pass ESLint\n\n21:8 - \'Application\' is defined but never used. (no-unused-vars)\n31:7 - Use import Application from \'@ember/application\'; instead of using Ember.Application (ember/new-module-imports)');
   });
 
   QUnit.test('components/todo-item.js', function (assert) {
@@ -6001,12 +6001,12 @@ define('client/tests/lint/app.lint-test', [], function () {
 
   QUnit.test('models/task.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/task.js should pass ESLint\n\n');
+    assert.ok(true, 'models/task.js should pass ESLint\n\n2:8 - \'Model\' is defined but never used. (no-unused-vars)\n3:10 - \'hasMany\' is defined but never used. (no-unused-vars)');
   });
 
   QUnit.test('models/user.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/user.js should pass ESLint\n\n');
+    assert.ok(true, 'models/user.js should pass ESLint\n\n2:8 - \'Model\' is defined but never used. (no-unused-vars)\n3:10 - \'hasMany\' is defined but never used. (no-unused-vars)');
   });
 
   QUnit.test('resolver.js', function (assert) {
@@ -6021,7 +6021,7 @@ define('client/tests/lint/app.lint-test', [], function () {
 
   QUnit.test('routes/index.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'routes/index.js should pass ESLint\n\n2:8 - \'Route\' is defined but never used. (no-unused-vars)\n4:10 - \'all\' is defined but never used. (no-unused-vars)\n20:7 - \'TaskData\' is assigned a value but never used. (no-unused-vars)\n100:7 - \'UserData\' is assigned a value but never used. (no-unused-vars)\n129:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n131:12 - Use import { hash } from \'rsvp\'; instead of using Ember.RSVP.hash (ember/new-module-imports)');
+    assert.ok(false, 'routes/index.js should pass ESLint\n\n2:8 - \'Route\' is defined but never used. (no-unused-vars)\n4:10 - \'all\' is defined but never used. (no-unused-vars)\n20:7 - \'TaskData\' is assigned a value but never used. (no-unused-vars)\n100:7 - \'UserData\' is assigned a value but never used. (no-unused-vars)\n139:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n141:12 - Use import { hash } from \'rsvp\'; instead of using Ember.RSVP.hash (ember/new-module-imports)');
   });
 
   QUnit.test('serializers/application.js', function (assert) {
@@ -6056,7 +6056,7 @@ define('client/tests/lint/templates.template.lint-test', [], function () {
 
   QUnit.test('client/templates/index.hbs', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'client/templates/index.hbs should pass TemplateLint.\n\nclient/templates/index.hbs\n  6:0  error  Incorrect indentation for `{{#each}}` beginning at L6:C0. Expected `{{#each}}` to be at an indentation of 2 but was found at 0.  block-indentation\n  8:11  error  Incorrect indentation for `each` beginning at L6:C0. Expected `{{/each}}` ending at L8:C11 to be at an indentation of 0 but was found at 2.  block-indentation\n  37:0  error  HTML comment detected  no-html-comments\n');
+    assert.ok(false, 'client/templates/index.hbs should pass TemplateLint.\n\nclient/templates/index.hbs\n  7:0  error  Incorrect indentation for `{{#each}}` beginning at L7:C0. Expected `{{#each}}` to be at an indentation of 2 but was found at 0.  block-indentation\n  12:11  error  Incorrect indentation for `each` beginning at L7:C0. Expected `{{/each}}` ending at L12:C11 to be at an indentation of 0 but was found at 2.  block-indentation\n  11:12  error  Incorrect indentation for `each` beginning at L9:C2. Expected `{{/each}}` ending at L11:C12 to be at an indentation of 2 but was found at 3.  block-indentation\n  51:0  error  HTML comment detected  no-html-comments\n');
   });
 });
 define('client/tests/lint/tests.lint-test', [], function () {

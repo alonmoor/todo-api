@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\TasksUsersController;
+use App\Http\Controllers\HomeController;
 use Inertia\Inertia;
 use App\Task;
 use App\Models\User;
@@ -55,6 +56,14 @@ Route::get('/', function () {
 //------------------------------------------------------------------------------------------------------
 Route::resource('/users', UsersController::class,);
 Route::get('/home', [\App\Http\Controllers\UsersController::class, 'index'])->name('home');
+
+
+
+
+Route::get('/dashboard', 'HomeController@dashboard')
+    ->name('dashboard');
+    //->middleware('auth');
+
 
 //Route::resource('users', UsersController::class,);
 //Route::post('/users', '\App\Http\Controllers\UsersController@index');

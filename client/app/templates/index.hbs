@@ -1,14 +1,17 @@
 {{todo-list model=model}}
 
+{{outlet}}
 
  <h2>Tasksssssssssssssssssssss</h2>
 <ul>
-{{#each model as |task|}}
+{{#each model.tasks as |task|}}
   <li>{{task.title}}</li>
+  {{#each task.users as |user|}}
+    <p>{{user.name}}</p>
+   {{/each}}
   {{/each}}
 </ul>
-
-
+<h2>Tasksssssssssssssssssssss</h2>
 
 <h2>Tasks with Users</h2>
 {{#each model.tasks as |task|}}
@@ -28,7 +31,18 @@
 
 
 
-{{outlet}}
+
+<h2>Testtttttttttttttttt</h2>
+{{#each tasks as |task|}}
+  <h3>{{task.title}}</h3>
+  {{#each task.users as |user|}}
+    <p>{{user.name}}</p>
+  {{/each}}
+{{/each}}
+
+
+
+
 
 
 

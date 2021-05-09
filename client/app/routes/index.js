@@ -125,6 +125,16 @@ const UserData = EmberObject.extend({
 
 });
 
+//=======================================================================
+// export default Ember.Route.extend({
+//   model() {
+//     return Ember.RSVP.hash({
+//       tasks: this.get('store').findAll('task', 1),
+//       users: this.get('store').findAll('user'),
+//     });
+//   },
+// });
+
 
 export default Ember.Route.extend({
   model() {
@@ -133,8 +143,28 @@ export default Ember.Route.extend({
       users: this.get('store').findAll('user'),
     });
   },
+
 });
 
+
+
+
+
+
+
+
+
+
+
+
+// export default Ember.Route.extend({
+//   model() {
+//     return this.get('store').findAll('user'
+//       include 'tasks'
+//     });
+// });
+
+//=======================================================================
 
 // export default Route.extend({
 //   model() {
