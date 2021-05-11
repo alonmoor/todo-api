@@ -41,6 +41,16 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+
+
+// Uncomment this line
+$app->register(App\Providers\AuthServiceProvider::class);
+
+// Add this line
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

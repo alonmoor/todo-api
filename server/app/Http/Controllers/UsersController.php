@@ -13,6 +13,7 @@ use Validator;
 //https://www.youtube.com/watch?v=376vZ1wNYPA-
 class UsersController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *

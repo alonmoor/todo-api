@@ -30,15 +30,27 @@ Route::get('/home', function () {
     ]);
 });
 
-//Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //    return Inertia::render('Dashboard');
-//})->name('dashboard');
+// })->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return redirect('/');
 });//->name('dashboard');
 
 Auth::routes();
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -60,8 +72,7 @@ Route::get('/home', [\App\Http\Controllers\UsersController::class, 'index'])->na
 
 
 
-Route::get('/dashboard', 'HomeController@dashboard')
-    ->name('dashboard');
+
     //->middleware('auth');
 
 
