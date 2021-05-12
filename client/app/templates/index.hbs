@@ -2,7 +2,12 @@
 
 {{outlet}}
 
- <h2>Tasksssssssssssssssssssss</h2>
+
+
+
+
+ <h2>Tasks width users</h2>
+ <h2>------------------------------------</h2>
 <ul>
 {{#each model.tasks as |task|}}
   <li>{{task.title}}</li>
@@ -11,49 +16,17 @@
    {{/each}}
   {{/each}}
 </ul>
-<h2>Tasksssssssssssssssssssss</h2>
 
-<h2>Tasks with Users</h2>
-{{#each model.tasks as |task|}}
-  <h3>{{task.title}}</h3>
-  {{#each task.users as |user|}}
-    <p>{{user.name}}</p>
-  {{/each}}
-{{/each}}
+<br>
+<br>
+<br>
 
-<h2>Users with Tasks</h2>
+<h2>for see the users Change default route to -> return Ember.RSVP.hash({</h2>
+<h2>Users width Tasks</h2>
+<h2>------------------------------------</h2>
 {{#each model.users as |user|}}
   <h3>{{user.name}}</h3>
   {{#each user.tasks as |task|}}
     <p>{{task.title}}</p>
   {{/each}}
 {{/each}}
-
-
-
-
-<h2>Testtttttttttttttttt</h2>
-{{#each tasks as |task|}}
-  <h3>{{task.title}}</h3>
-  {{#each task.users as |user|}}
-    <p>{{user.name}}</p>
-  {{/each}}
-{{/each}}
-
-
-
-
-
-
-
-
-
-<!--
-
-<h3>userssssssssssssssssssssssssssssss</h3>
-{{#each model.users as |user|}}
-  <h3>{{user.name}}</h3>
-  {{#each user.tasks as |task|}}
-    <p>{{task.name}}</p>
-  {{/each}}
-{{/each}} -->

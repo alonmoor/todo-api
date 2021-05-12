@@ -4,19 +4,6 @@ import EmberObject, { computed } from '@ember/object';
 import { all } from 'rsvp';
 
 
-
-
-
-// export default Ember.Route.extend({
-//   model() {
-//     return Ember.RSVP.hash({
-//       users: this.get('store').findAll('user', 1),
-//       tasks: this.get('store').findAll('tasks'),
-//     });
-//   },
-// });
-
-
 const TaskData = EmberObject.extend({
   tasks: null,
 
@@ -53,47 +40,6 @@ const TaskData = EmberObject.extend({
   }),
 });
 
-
-
-
-
-
-
-// export default Route.extend({
-//   model() {
-//     return TaskData.create({
-//       tasks : this.store.findAll('task')
-//     });
-//   },
-// })
-//
-//
-//
-//
-// filteredOwners: Ember.computed('userName', 'model.@each.users.[]', function() {
-//   let userName = this.get('userName');
-//
-//   return DS.PromiseArray.create({
-//     promise: Ember.RSVP.filter(this.get('model').toArray(), owner => {
-//       return owner.get('users').then( pets => {
-//         return pets.isAny('name', userName);
-//       });
-//     })
-//   });
-// })
-
-// export default Route.extend({
-//   model() {
-//       this.get('store').findAll('user');
-//   },
-// })
-
-
-
-
-
-
-
 //=====================================================================================
 
 
@@ -126,6 +72,8 @@ const UserData = EmberObject.extend({
 });
 
 //=======================================================================
+
+
 // export default Ember.Route.extend({
 //   model() {
 //     return Ember.RSVP.hash({
@@ -133,51 +81,16 @@ const UserData = EmberObject.extend({
 //       users: this.get('store').findAll('user'),
 //     });
 //   },
+//
 // });
 
 
-export default Ember.Route.extend({
+export default Route.extend({
   model() {
-    return Ember.RSVP.hash({
-      tasks: this.get('store').findAll('task', 1),
-      users: this.get('store').findAll('user'),
+    return TaskData.create({
+      tasks : this.store.findAll('task')
     });
   },
-
-});
-
-
-
-
-
-
-
-
-
-
-
-
-// export default Ember.Route.extend({
-//   model() {
-//     return this.get('store').findAll('user'
-//       include 'tasks'
-//     });
-// });
+})
 
 //=======================================================================
-
-// export default Route.extend({
-//   model() {
-//     return UserData.create({
-//       users : this.store.findAll('user')
-//     });
-//   },
-// });
-
-
-// export default Route.extend({
-//   model() {
-//       this.get('store').findAll('user'),
-//         this.get('store').findAll('task');
-//   },
-// });

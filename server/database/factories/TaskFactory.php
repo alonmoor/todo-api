@@ -23,7 +23,7 @@ class TaskFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence,
-            'done'  => $this->faker->boolean,
+            'done'  =>  rand(0, 1),//$this->faker->boolean,
         ];
     }
 }
