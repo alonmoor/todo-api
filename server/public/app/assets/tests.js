@@ -5994,6 +5994,11 @@ define('client/tests/lint/app.lint-test', [], function () {
     assert.ok(false, 'components/todo-list.js should pass ESLint\n\n3:20 - \'service\' is defined but never used. (no-unused-vars)\n4:8 - \'Service\' is defined but never used. (no-unused-vars)\n7:10 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)');
   });
 
+  QUnit.test('components/user-item.js', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'components/user-item.js should pass ESLint\n\n4:20 - \'service\' is defined but never used. (no-unused-vars)\n7:10 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)');
+  });
+
   QUnit.test('components/user-list.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'components/user-list.js should pass ESLint\n\n');

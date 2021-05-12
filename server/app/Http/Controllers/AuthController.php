@@ -160,3 +160,4 @@ public function getAuthUser()
 
        return Auth::user();
     }
+}

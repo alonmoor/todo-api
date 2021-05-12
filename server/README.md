@@ -24,7 +24,7 @@ php artisan serve
 
 ```
 # Public
-
+GET   /api/Tasks
 GET   /api/task
 GET   /api/task/:id
 
